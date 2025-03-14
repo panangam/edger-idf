@@ -1,9 +1,4 @@
-/*
- * Rotary encoder library for Arduino.
- */
-
-#ifndef rotary_h
-#define rotary_h
+#pragma once
 
 #include <cstdint>
 
@@ -25,17 +20,13 @@
 class Rotary
 {
 public:
-    Rotary(gpio_num_t pinClk, gpio_num_t pinDt, QueueHandle_t eventQueue);
+    Rotary(gpio_num_t pinClk, gpio_num_t pinDt, size_t eventQueueSize);
+    QueueHandle_t eventQueue;
 private:
-    unsigned char state;
+    uint8_t state;
     gpio_num_t pinClk;
     gpio_num_t pinDt;
-    QueueHandle_t eventQueue;
-
+    
     void interrupt();
     void registerInterrupts();
-    void taskCode();
 };
-
-#endif
- 

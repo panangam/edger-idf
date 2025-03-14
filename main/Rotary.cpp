@@ -60,12 +60,13 @@
  * than 10 lines of logic.
  */
 
-#include "driver/gpio.h"
+#include <cstdint>
+
 #include "freertos/FreeRTOS.h"
 #include "freertos/queue.h"
+#include "driver/gpio.h"
 
-#include "Rotary.h"
-#include "util.h"
+#include "Rotary.hpp"
 
 /*
  * The below state table has, for each state (row), the new state
@@ -83,7 +84,7 @@
 #define R_START_M 0x3
 #define R_CW_BEGIN_M 0x4
 #define R_CCW_BEGIN_M 0x5
-const unsigned char ttable[6][4] = {
+constexpr uint8_t ttable[6][4] = {
   // R_START (00)
   {R_START_M,            R_CW_BEGIN,     R_CCW_BEGIN,  R_START},
   // R_CCW_BEGIN
@@ -106,7 +107,7 @@ const unsigned char ttable[6][4] = {
 #define R_CCW_FINAL 0x5
 #define R_CCW_NEXT 0x6
 
-const unsigned char ttable[7][4] = {
+constexpr uint8_t ttable[7][4] = {
   // R_START
   {R_START,    R_CW_BEGIN,  R_CCW_BEGIN, R_START},
   // R_CW_FINAL
@@ -127,9 +128,9 @@ const unsigned char ttable[7][4] = {
 /*
  * Constructor. Each arg is the pin number for each encoder contact.
  */
-Rotary::Rotary(gpio_num_t pinClk, gpio_num_t pinDt, QueueHandle_t eventQueue) 
-  : pinClk(pinClk), pinDt(pinDt), eventQueue(eventQueue)
-{
+Rotary::Rotary(gpio_num_t pinClk, gpio_num_t pinDt, size_t eventQueueSize) 
+  : eventQueue(xQueueCreate(eventQueueSize, sizeof(uint8_t))), pinClk(pinClk), pinDt(pinDt)
+{  
     // initialise state.
     state = R_START;
 
@@ -165,10 +166,10 @@ void Rotary::registerInterrupts()
 void Rotary::interrupt() 
 {
     // Grab state of input pins.
-    unsigned char pinState = gpio_get_level(pinClk) | (gpio_get_level(pinDt) << 1);
+    uint8_t pinState = gpio_get_level(pinClk) | (gpio_get_level(pinDt) << 1);
     state = ttable[state & 0xf][pinState];
     static BaseType_t xHigherPriorityTaskWoken;  // not used
-    unsigned char result = state & 0x30;
+    uint8_t result = state & 0x30;
     if (result == DIR_CW || result == DIR_CCW) 
     {
         xQueueSendToBackFromISR(eventQueue, &result, &xHigherPriorityTaskWoken);

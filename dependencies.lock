@@ -15,22 +15,32 @@ dependencies:
       path: components/esp_idf_lib_helpers
       type: git
     version: b83531a37459b22c5a15cf3616fdca980b2caa67
+  espressif/bdc_motor:
+    component_hash: 9292b605cfd390ff62225caa93e02700b86377e6a3156620192e4876dcf87b27
+    dependencies:
+    - name: idf
+      require: private
+      version: '>=5.0'
+    source:
+      registry_url: https://components.espressif.com/
+      type: service
+    version: 0.1.0
   espressif/button:
-    component_hash: a405a99689f636e84cd67da34a85a88d0d3a1aa514a28f60d18bd370c1378e0b
+    component_hash: 19d729c86c9d0e3819e95ef27b7e561598301e9716ef6df3b5bc7337e5816c6e
     dependencies:
     - name: espressif/cmake_utilities
       registry_url: https://components.espressif.com
       require: private
-      version: 0.*
+      version: '*'
     - name: idf
       require: private
       version: '>=4.0'
     source:
       registry_url: https://components.espressif.com/
       type: service
-    version: 4.0.0
+    version: 4.1.0
   espressif/cmake_utilities:
-    component_hash: 351350613ceafba240b761b4ea991e0f231ac7a9f59a9ee901f751bddc0bb18f
+    component_hash: 05165f30922b422b4b90c08845e6d449329b97370fbd06309803d8cb539d79e3
     dependencies:
     - name: idf
       require: private
@@ -38,7 +48,7 @@ dependencies:
     source:
       registry_url: https://components.espressif.com
       type: service
-    version: 0.5.3
+    version: 1.1.1
   espressif/esp-idf-cxx:
     component_hash: 2fa63e4e725f0c2d3dd6d99da8a91d404b4b49667088b1be0f336eb9c13ff17f
     dependencies:
@@ -95,6 +105,7 @@ dependencies:
 direct_dependencies:
 - ads111x
 - esp_idf_lib_helpers
+- espressif/bdc_motor
 - espressif/button
 - espressif/esp-idf-cxx
 - espressif/esp_lvgl_port
@@ -102,6 +113,6 @@ direct_dependencies:
 - i2cdev
 - idf
 - lvgl/lvgl
-manifest_hash: 6e83842bed371fc3d45ba2a536be56652301e420f4e71c1079cb2cc555fbf83e
+manifest_hash: fb87de7ca62bc68fa9aa0eceab98488d403603b687c421c99f429c4c724be9cf
 target: esp32c6
 version: 2.0.0

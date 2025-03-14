@@ -2,6 +2,7 @@
 
 #include "lvgl.h"
 
+#include "Page.hpp"
 #include "macroUtil.hpp"
 #include "GraphPage.hpp"
 
@@ -11,14 +12,12 @@ GraphPage::GraphPage(
     uint32_t pointCount, 
     int32_t rangeMin, 
     int32_t rangeMax
-) : disp{disp}, pointCount(pointCount), rangeMin{rangeMin}, rangeMax{rangeMax}
+) : Page(disp), pointCount(pointCount), rangeMin{rangeMin}, rangeMax{rangeMax}
 {
     if (rangeMin == GRAPH_AUTOSCALE) rangeMin = INT32_MAX;
     if (rangeMax == GRAPH_AUTOSCALE) rangeMax = INT32_MIN;
 
     withLVGL([&]() mutable {
-        screen = lv_obj_create(NULL);
-
         // name label
         nameLabel = lv_label_create(screen);
         lv_label_set_text(nameLabel, name);
@@ -50,11 +49,6 @@ GraphPage::GraphPage(
         // data series
         series = lv_chart_add_series(chart, WHITE, LV_CHART_AXIS_PRIMARY_Y);
     });
-}
-
-void GraphPage::setActive()
-{
-    lv_screen_load(screen);
 }
 
 void GraphPage::autoScaleChart()

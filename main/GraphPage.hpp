@@ -5,22 +5,19 @@
 #include "lvgl.h"
 #include "esp_lvgl_port.h"
 
+#include "Page.hpp"
 #include "ArousalMonitor.hpp"
 #include "view.hpp"
 
 #define GRAPH_AUTOSCALE INT32_MAX
 
-class GraphPage
+class GraphPage : public Page
 {
 public:
     GraphPage(lv_display_t* disp, const char* name, uint32_t pointCount, int32_t rangeMin, int32_t rangeMax);
-    void setActive();
     void autoScaleChart();
     void addPoint(int32_t val);
-    virtual void tick() {};
 
-    lv_display_t* disp;
-    lv_obj_t* screen;
     lv_obj_t* nameLabel;
     lv_obj_t* valLabel;
     lv_obj_t* chart;

@@ -30,7 +30,7 @@ void ArousalMonitor::tick()
     if (pressure < previousPressure)
     {
         float peakSize = pressure - peakStart;
-        if (peakSize >= sensitivityThreshold && peakSize < 10000)  // reject big spikes
+        if (peakSize >= sensitivityThreshold && peakSize < 2000)  // reject big spikes
         {
             arousal += pressure - peakStart;
         }

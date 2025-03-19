@@ -17,6 +17,7 @@ public:
     GraphPage(lv_display_t* disp, const char* name, uint32_t pointCount, int32_t rangeMin, int32_t rangeMax);
     void autoScaleChart();
     void addPoint(int32_t val);
+    void setActive() override;
 
     lv_obj_t* nameLabel;
     lv_obj_t* valLabel;

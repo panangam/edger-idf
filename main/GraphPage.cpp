@@ -77,3 +77,12 @@ void GraphPage::addPoint(int32_t val)
     lv_chart_refresh(chart);
     lv_label_set_text(valLabel, std::to_string(val).c_str());
 }
+
+void GraphPage::setActive()
+{
+    Page::setActive();
+    for (size_t i = 0; i < pointCount; i++)
+    {
+        lv_chart_set_next_value(chart, series, LV_CHART_POINT_NONE);
+    }
+}

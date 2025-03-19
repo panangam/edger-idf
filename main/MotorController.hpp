@@ -84,6 +84,6 @@ void MotorController::setSpeed(float speed)
     assert(speed >= 0 && speed <= 1);
 
     uint32_t speedTicks = speed * PWM_LEVEL_RESOLUTION;
-    ESP_LOGI("MotorController", "speed %lu", speedTicks);
+    // ESP_LOGI("MotorController", "speed %lu", speedTicks);
     ESP_ERROR_CHECK(mcpwm_comparator_set_compare_value(comparator, speedTicks));
 }

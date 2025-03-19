@@ -6,6 +6,7 @@
 #include "freertos/task.h"
 #include "esp_log.h"
 
+#include "WithMutex.hpp"
 #include "ArousalMonitor.hpp"
 #include "MotorController.hpp"
 
@@ -18,7 +19,7 @@ struct EdgingSettings
     float restTimeMin = 10;  // seconds
     float rampUpTime = 60;  // seconds
     float motorSpeedMin = 0.2;
-    float motorSpeedMax = 0.8;
+    float motorSpeedMax = 1.0;
 };
 
 enum EdgingState_t
@@ -28,7 +29,7 @@ enum EdgingState_t
     EDGING_STATE_COOLDOWN
 };
 
-class EdgingController
+class EdgingController : public WithMutex
 {
 public:
     EdgingController(
@@ -39,20 +40,31 @@ public:
         motorController(motorController),
         settings(settings)
     {};
+    void setSpeed(float newSpeed);
     void tick();
 
     ArousalMonitor& arousalMonitor;
     MotorController& motorController;
     EdgingSettings& settings;
-    EdgingState_t state;
+    EdgingState_t state = EDGING_STATE_START;
     TickType_t rampStartTime;
+
+    float speed;
 };
+
+void EdgingController::setSpeed(float newSpeed)
+{
+    speed = newSpeed;
+    motorController.setSpeed(newSpeed);
+}
 
 void EdgingController::tick()
 {
     arousalMonitor.take();
     float curArousal = arousalMonitor.getArousal();
     arousalMonitor.give();
+
+    take();
 
     switch (state)
     {
@@ -67,7 +79,7 @@ void EdgingController::tick()
         {
             // not at edge threshold yet; ramp up motor
             TickType_t curTime = xTaskGetTickCount();
-            float motorSpeedToSet = std::min(
+            float newSpeed = std::min(
                 (
                     (float) pdTICKS_TO_MS(curTime - rampStartTime) 
                     / 1000 
@@ -76,16 +88,18 @@ void EdgingController::tick()
                 ) + settings.motorSpeedMin,
                 settings.motorSpeedMax
             );
-            motorController.setSpeed(motorSpeedToSet);
-            ESP_LOGI(TAG, "Ramping motor power to %.2f", motorSpeedToSet);
+            setSpeed(newSpeed);
+            // ESP_LOGI(TAG, "Ramping motor power to %.2f", newSpeed);
         }
         else
         {
             // edge
             ESP_LOGI(TAG, "Near orgasm detected, cooldown start");
-            motorController.setSpeed(0);
+            setSpeed(0);
             state = EDGING_STATE_COOLDOWN;
+            give();  // unblock while pausing for break
             vTaskDelay(pdMS_TO_TICKS(settings.restTimeMin * 1000));
+            take();
         }
         break;
     case EDGING_STATE_COOLDOWN:
@@ -99,5 +113,5 @@ void EdgingController::tick()
         break;
     }
 
-    vTaskDelay(1);
+    give();
 }

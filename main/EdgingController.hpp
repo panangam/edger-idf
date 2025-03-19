@@ -14,12 +14,14 @@
 
 struct EdgingSettings
 {
-    float edgeArousal = 300;
-    float restArousalMax = 100;
-    float restTimeMin = 10;  // seconds
+    float edgeArousal = 100;
+    float cooldownArousalMax = 100;
+    float cooldownTimeMin = 10;  // seconds
     float rampUpTime = 60;  // seconds
-    float motorSpeedMin = 0.2;
-    float motorSpeedMax = 1.0;
+    float rampPlateauTime = 30;  // seconds
+    float rampBreakRatio = 0.5;
+    float motorSpeedMin = 0.1;
+    float motorSpeedMax = 0.7;
 };
 
 enum EdgingState_t
@@ -28,6 +30,9 @@ enum EdgingState_t
     EDGING_STATE_RAMPING,
     EDGING_STATE_COOLDOWN
 };
+
+TickType_t secToTick(float sec) { return pdMS_TO_TICKS(sec*1000); };
+float tickToSec(TickType_t tick) { return static_cast<float>(pdTICKS_TO_MS(tick)) / 1000; };
 
 class EdgingController : public WithMutex
 {
@@ -50,6 +55,7 @@ public:
     TickType_t rampStartTime;
 
     float speed;
+    uint32_t numDenied = 0;
 };
 
 void EdgingController::setSpeed(float newSpeed)
@@ -60,9 +66,7 @@ void EdgingController::setSpeed(float newSpeed)
 
 void EdgingController::tick()
 {
-    arousalMonitor.take();
     float curArousal = arousalMonitor.getArousal();
-    arousalMonitor.give();
 
     take();
 
@@ -79,10 +83,14 @@ void EdgingController::tick()
         {
             // not at edge threshold yet; ramp up motor
             TickType_t curTime = xTaskGetTickCount();
+            if ((curTime - rampStartTime) > secToTick(settings.rampUpTime + settings.rampPlateauTime))
+            {
+                // hit plateau time threshold
+                rampStartTime = curTime - secToTick(settings.rampUpTime*settings.rampBreakRatio);
+            }
             float newSpeed = std::min(
                 (
-                    (float) pdTICKS_TO_MS(curTime - rampStartTime) 
-                    / 1000 
+                    tickToSec(curTime - rampStartTime) 
                     / settings.rampUpTime
                     * (settings.motorSpeedMax - settings.motorSpeedMin) 
                 ) + settings.motorSpeedMin,
@@ -97,14 +105,15 @@ void EdgingController::tick()
             ESP_LOGI(TAG, "Near orgasm detected, cooldown start");
             setSpeed(0);
             state = EDGING_STATE_COOLDOWN;
+            numDenied++;
             give();  // unblock while pausing for break
-            vTaskDelay(pdMS_TO_TICKS(settings.restTimeMin * 1000));
+            vTaskDelay(pdMS_TO_TICKS(settings.cooldownTimeMin * 1000));
             take();
         }
         break;
     case EDGING_STATE_COOLDOWN:
         // rest time delay must be over by now
-        if (curArousal < settings.restArousalMax)
+        if (curArousal < settings.cooldownArousalMax)
         {
             ESP_LOGI(TAG, "Cooldown finish, continue ramping up");
             rampStartTime = xTaskGetTickCount();

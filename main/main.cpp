@@ -22,7 +22,6 @@
 #include "ArousalPage.hpp"
 #include "PressurePage.hpp"
 #include "DashboardPage.hpp"
-#include "TabWidget.hpp"
 
 #define TAG "main.cpp"
 

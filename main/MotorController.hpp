@@ -4,7 +4,7 @@
 #include "driver/gpio.h"
 #include "driver/mcpwm_prelude.h"
 
-#define PWM_LEVEL_RESOLUTION 100
+#define PWM_LEVEL_RESOLUTION 256
 
 class MotorController
 {

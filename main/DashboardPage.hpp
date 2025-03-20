@@ -22,7 +22,7 @@ public:
         EdgingController& edgingController
     );
     void tick() override;
-    void onEvent(uint8_t event) override;
+    void onEvent(uint8_t event, uint32_t modeNum) override;
 
     static constexpr uint32_t BAR_RANGE = 50;
 
@@ -128,7 +128,10 @@ DashboardPage::DashboardPage(
 void DashboardPage::tick()
 {
     uint32_t numDenied = edgingController.numDenied;
-    float arousal = arousalMonitor.getArousal();
+    float arousal;
+    arousalMonitor.with([&]() {
+        arousal = arousalMonitor.getArousal();
+    });
     float speed = edgingController.speed;
     float maxArousal = edgingController.settings.edgeArousal;
     float maxSpeed = edgingController.settings.motorSpeedMax;
@@ -149,14 +152,17 @@ void DashboardPage::tick()
     });
 }
 
-void DashboardPage::onEvent(uint8_t event)
+void DashboardPage::onEvent(uint8_t event, uint32_t modeNum)
 {
     if (event == DIR_CW)
     {
         int32_t temp;
         edgingController.with([&]() mutable {
-            edgingController.settings.edgeArousal += 10;
-            temp = edgingController.settings.edgeArousal;
+            if (modeNum == 1)
+                edgingController.settings.edgeArousal += 10;
+            else if (modeNum == 2)
+                edgingController.settings.motorSpeedMax += 0.01;
+            // temp = edgingController.settings.edgeArousal;
         });
         // withLVGL([&]() {
         //     lv_label_set_text(labelNumMaxArousal, std::to_string(temp).c_str());
@@ -166,12 +172,19 @@ void DashboardPage::onEvent(uint8_t event)
     {
         int32_t temp;
         edgingController.with([&]() mutable {
-            edgingController.settings.edgeArousal -= 10;
-            if (edgingController.settings.edgeArousal < 0)
+            if (modeNum == 1)
             {
-                edgingController.settings.edgeArousal = 0;
+                edgingController.settings.edgeArousal -= 10;
+                if (edgingController.settings.edgeArousal < 0)
+                    edgingController.settings.edgeArousal = 0;
             }
-            temp = edgingController.settings.edgeArousal;
+            else if (modeNum == 2)
+            {
+                edgingController.settings.motorSpeedMax -= 0.01;
+                if (edgingController.settings.motorSpeedMax < 0)
+                    edgingController.settings.motorSpeedMax = 0;
+            }
+            // temp = edgingController.settings.edgeArousal;
         });
         // withLVGL([&]() {
         //     lv_label_set_text(labelNumMaxArousal, std::to_string(temp).c_str());

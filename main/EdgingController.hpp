@@ -21,7 +21,7 @@ struct EdgingSettings
     float rampPlateauTime = 30;  // seconds
     float rampBreakRatio = 0.5;
     float motorSpeedMin = 0.1;
-    float motorSpeedMax = 0.7;
+    float motorSpeedMax = 0.3;
 };
 
 enum EdgingState_t

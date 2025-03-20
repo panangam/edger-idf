@@ -45,8 +45,10 @@ struct AppState
     Button& knobButton;
     EdgingSettings& edgingSettings;
     EdgingController& edgingController;
-    bool& changingPage;
+    uint32_t& modeNum;
 };
+
+constexpr uint32_t MODE_COUNT = 3;
 
 void renderTaskFunc(void* appStatePtr);
 void arousalTaskFunc(void* appStatePtr);
@@ -57,19 +59,19 @@ extern "C" void app_main(void)
     // register inputs
     Rotary knob(PIN_ROTARY_CLK, PIN_ROTARY_DT, KNOB_EVENT_QUEUE_LENGTH);
 
-    bool changingPage = true;
+    uint32_t modeNum = 0;
     auto button_click_cb = [](void* btn_handle, void* usr_data)
     {
         ESP_LOGI("btn", "click");
-        bool* changingPage = reinterpret_cast<bool*>(usr_data);
-        *changingPage = !*changingPage;
+        uint32_t* modeNum = reinterpret_cast<uint32_t*>(usr_data);
+        *modeNum = (*modeNum+1) % MODE_COUNT;
     };
     auto button_long_press_cb = [](void* btn_handle, void* usr_data)
     {
         ESP_LOGI("btn", "long press");
     };
     Button knobButton{PIN_ROTARY_SW, 0};
-    knobButton.registerCallback(BUTTON_SINGLE_CLICK, button_click_cb, {}, &changingPage);
+    knobButton.registerCallback(BUTTON_SINGLE_CLICK, button_click_cb, {}, &modeNum);
     knobButton.registerCallback(BUTTON_LONG_PRESS_START, button_long_press_cb, {.long_press = 500});
 
     // initialize i2c bus
@@ -108,7 +110,7 @@ extern "C" void app_main(void)
         knobButton,
         edgingSettings,
         edgingController,
-        changingPage
+        modeNum
     };
 
     // start tasks
@@ -148,7 +150,7 @@ void renderTaskFunc(void* appStatePtr)
         startTick = xTaskGetTickCount();
         while (xQueueReceive(appState.knob.eventQueue, &rotaryEvent, 0) == pdTRUE)
         {
-            if (appState.changingPage)
+            if (appState.modeNum == 0)
             {
                 // detect rotary event
                 if (rotaryEvent == DIR_CCW) 
@@ -174,7 +176,7 @@ void renderTaskFunc(void* appStatePtr)
             }
             else
             {
-                pages[curPageNum]->onEvent(rotaryEvent);
+                pages[curPageNum]->onEvent(rotaryEvent, appState.modeNum);
             }
         }
 

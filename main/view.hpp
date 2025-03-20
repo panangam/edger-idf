@@ -13,6 +13,7 @@
 
 LV_FONT_DECLARE(tamzen_12)
 constexpr lv_color_t WHITE{1, 1, 1};
+constexpr lv_color_t BLACK{0, 0, 0};
 
 std::pair<esp_lcd_panel_io_handle_t, esp_lcd_panel_handle_t> initOLED(i2c_master_bus_handle_t i2c_bus);
 lv_display_t *initLVGL(esp_lcd_panel_io_handle_t io_handle, esp_lcd_panel_handle_t panel_handle);

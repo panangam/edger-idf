@@ -13,6 +13,7 @@
 #include "macroUtil.hpp"
 #include "Rotary.hpp"
 #include "Button.hpp"
+#include "RotaryEncoderWithButton.hpp"
 #include "ADS1115.hpp"
 #include "ArousalMonitor.hpp"
 #include "MotorController.hpp"
@@ -22,6 +23,8 @@
 #include "ArousalPage.hpp"
 #include "PressurePage.hpp"
 #include "DashboardPage.hpp"
+
+#include "eez_ui/ui.h"
 
 #define TAG "main.cpp"
 
@@ -53,6 +56,7 @@ constexpr uint32_t MODE_COUNT = 3;
 void renderTaskFunc(void* appStatePtr);
 void arousalTaskFunc(void* appStatePtr);
 void edgingTaskFunc(void* appStatePtr);
+static void renderTaskFuncEEZ(void* appStatePtr);
 
 extern "C" void app_main(void)
 {
@@ -116,7 +120,8 @@ extern "C" void app_main(void)
     // start tasks
     TaskHandle_t renderTask, adcTask, edgingTask;
     xTaskCreate(arousalTaskFunc, "arousalTask", 2048, &appState, 5, &adcTask);
-    xTaskCreate(renderTaskFunc, "renderTask", 4096, &appState, 7, &renderTask);
+    // xTaskCreate(renderTaskFunc, "renderTask", 4096, &appState, 7, &renderTask);
+    xTaskCreate(renderTaskFuncEEZ, "renderTask", 4096, &appState, 7, &renderTask);
     xTaskCreate(edgingTaskFunc, "edgingTask", 2048, &appState, 7, &edgingTask);
 
     // do nothing forever
@@ -185,6 +190,45 @@ void renderTaskFunc(void* appStatePtr)
         lvgl_port_flush_ready(disp);
         vTaskDelayUntil(&startTick, configTICK_RATE_HZ / 30);
     }
+}
+
+static void renderTaskFuncEEZ(void* appStatePtr)
+{
+    AppState& appState = *(reinterpret_cast<AppState*>(appStatePtr));
+
+    auto [IOHandle, panelHandle] = initOLED(appState.i2cBus);
+    lv_display_t* disp = initLVGL(IOHandle, panelHandle);
+    ui_init();
+
+    lv_indev_t * encoder = lv_indev_create();
+    lv_indev_set_type(encoder, LV_INDEV_TYPE_ENCODER);
+    lv_indev_set_mode(encoder, LV_INDEV_MODE_EVENT);
+    lv_indev_set_driver_data(encoder, appStatePtr);
+
+    struct TempEncoderData
+    {
+        int32_t encDiff;
+        bool buttonIsDown;
+    };
+
+    auto encoderReadCB = [](lv_indev_t * indev, lv_indev_data_t * data) {
+        AppState& appState = *(reinterpret_cast<AppState*>(lv_indev_get_driver_data(indev)));
+    };
+    lv_indev_set_read_cb(encoder, encoderReadCB);
+
+    auto knobButtonCB = [](void *button_handle, void *encoder) {
+        lv_indev_read((lv_indev_t*) encoder);
+    };
+    appState.knobButton.registerCallback(BUTTON_PRESS_DOWN, [](void *button_handle, void *encoder) {
+        lv_indev_read((lv_indev_t*) encoder);
+    }, {}, (void*) encoder);
+    appState.knobButton.registerCallback(BUTTON_PRESS_UP, [](void *button_handle, void *encoder) {
+        lv_indev_read((lv_indev_t*) encoder);
+    }, {}, (void*) encoder);
+
+    lv_screen_load(objects.page_settings);
+
+    for (;;) { vTaskDelay(portMAX_DELAY); }
 }
 
 void arousalTaskFunc(void* appStatePtr)

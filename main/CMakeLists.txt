@@ -1,2 +1,18 @@
-idf_component_register(SRCS "GraphPage.cpp" "ArousalMonitor.cpp" "ADS1115.cpp" "tamzen_12.c" "main.cpp" "Rotary.cpp" "view.cpp" "Button.cpp" 
-                    INCLUDE_DIRS ".")
+idf_component_register(
+    SRCS
+        "GraphPage.cpp"
+        "ArousalMonitor.cpp"
+        "ADS1115.cpp"
+        "tamzen_12.c"
+        "main.cpp"
+        "Rotary.cpp"
+        "view.cpp"
+        "Button.cpp"
+        "actions.c"
+        "eez_ui/screens.c"
+        "eez_ui/styles.c"
+        "eez_ui/ui_font_tamzen_12.c"
+        "eez_ui/ui.c"
+    INCLUDE_DIRS
+        "."
+)

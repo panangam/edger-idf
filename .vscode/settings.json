@@ -106,7 +106,9 @@
         "text_encoding": "cpp",
         "lv_version.h": "c",
         "lvgl_demo_ui.c": "cpp",
-        "*.ipp": "cpp"
+        "*.ipp": "cpp",
+        "screens.h": "c",
+        "ui.h": "c"
     },
     "idf.port": "/dev/ttyACM0",
     "idf.flashType": "UART"

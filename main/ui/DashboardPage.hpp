@@ -4,7 +4,7 @@
 #include "freertos/task.h"
 #include "lvgl.h"
 
-#include "Rotary.hpp"
+#include "../device/Rotary.hpp"
 #include "view.hpp"
 #include "macroUtil.hpp"
 #include "Page.hpp"

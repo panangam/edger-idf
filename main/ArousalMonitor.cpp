@@ -4,7 +4,7 @@
 #include "freertos/semphr.h"
 #include "esp_log.h"
 
-#include "ADS1115.hpp"
+#include "device/ADS1115.hpp"
 #include "RingBuffer.hpp"
 
 #include "ArousalMonitor.hpp"

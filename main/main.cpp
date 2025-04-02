@@ -11,20 +11,20 @@
 #include "esp_lvgl_port.h"
 
 #include "macroUtil.hpp"
-#include "Rotary.hpp"
-#include "Button.hpp"
-#include "RotaryEncoderWithButton.hpp"
-#include "ADS1115.hpp"
+#include "device/Rotary.hpp"
+#include "device/Button.hpp"
+#include "device/RotaryEncoderWithButton.hpp"
+#include "device/ADS1115.hpp"
 #include "ArousalMonitor.hpp"
 #include "MotorController.hpp"
 #include "EdgingController.hpp"
 
-#include "view.hpp"
-#include "ArousalPage.hpp"
-#include "PressurePage.hpp"
-#include "DashboardPage.hpp"
+#include "ui/view.hpp"
+#include "ui/ArousalPage.hpp"
+#include "ui/PressurePage.hpp"
+#include "ui/DashboardPage.hpp"
 
-#include "eez_ui/ui.h"
+#include "ui/eez_ui/ui.h"
 
 #define TAG "main.cpp"
 

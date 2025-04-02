@@ -6,8 +6,8 @@
 #include "freertos/semphr.h"
 
 #include "WithMutex.hpp"
-#include "ADS1115.hpp"
 #include "RingBuffer.hpp"
+#include "device/ADS1115.hpp"
 
 class ArousalMonitor : public WithMutex
 {

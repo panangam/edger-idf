@@ -1,30 +1,130 @@
 #pragma once
 
+#include <thread>
+#include <atomic>
+#include <mutex>
+
 #include "driver/gpio.h"
 #include "freertos/FreeRTOS.h"
 #include "freertos/queue.h"
 
+#include "../macroUtil.hpp"
+
 #include "Rotary.hpp"
 
-class RotaryEncoderWithButton
+enum RotaryEncoderWithButtonEvent
+{
+    ORAS_ENCODER_CCW,
+    ORAS_ENCODER_CW,
+    ORAS_ENCODER_PRESS,
+    ORAS_ENCODER_RELEASE
+};
+
+class RotaryEncoderWithButtonIndev
 {
 public:
-    RotaryEncoderWithButton(
+    RotaryEncoderWithButtonIndev(
         gpio_num_t pinClk,
         gpio_num_t pinDt,
         gpio_num_t pinSw,
-        size_t rotaryEventQueueSize,
         uint32_t swDebounceMS
-    ) : rotary(pinClk, pinDt, rotaryEventQueueSize), pinSw(pinSw) {};
+    );
 
-    static lv_indev_t* createLVGLIndev();
-
+    lv_indev_t* indevPtr;
     Rotary rotary;
-    gpio_num_t pinSw;
+    Button button;
+
+    std::atomic<int16_t> tempEncDiff;
+    lv_indev_state_t tempButtonState;
+
+    QueueHandle_t eventQueue;
+    std::thread eventHandlerDaemon;
 };
 
-lv_indev_t* RotaryEncoderWithButton::createLVGLIndev()
+void handleEventQueue(RotaryEncoderWithButtonIndev& encoder);
+
+RotaryEncoderWithButtonIndev::RotaryEncoderWithButtonIndev(
+    gpio_num_t pinClk,
+    gpio_num_t pinDt,
+    gpio_num_t pinSw,
+    uint32_t swDebounceMS
+) : rotary(pinClk, pinDt, 0), button(pinSw, false, 200), eventQueue(xQueueCreate(16, sizeof(uint8_t))) {
+    // create lvgl indev
+    {
+        std::scoped_lock lock(lvgl_mutex);
+        indevPtr = lv_indev_create();
+        lv_indev_set_type(indevPtr, LV_INDEV_TYPE_ENCODER);
+        lv_indev_set_mode(indevPtr, LV_INDEV_MODE_EVENT);
+        lv_indev_set_long_press_time(indevPtr, 200);
+        lv_indev_set_display(indevPtr, lv_display_get_default());
+        lv_indev_set_driver_data(indevPtr, this);
+        lv_indev_set_read_cb(indevPtr, [](lv_indev_t * indev, lv_indev_data_t * data) {
+            auto encoder = (RotaryEncoderWithButtonIndev*) lv_indev_get_driver_data(indev);
+
+            data->state = encoder->tempButtonState;
+            data->enc_diff = encoder->tempEncDiff;
+            encoder->tempEncDiff = 0;
+        });
+    }
+
+    // register callbacks
+    static BaseType_t xHigherPriorityTaskWoken;  // not used
+    rotary.setCallbackCCW([&]() {
+        RotaryEncoderWithButtonEvent event = ORAS_ENCODER_CCW;
+        xQueueSendToBackFromISR(eventQueue, &event, &xHigherPriorityTaskWoken);
+    });
+    rotary.setCallbackCW([&]() {
+        RotaryEncoderWithButtonEvent event = ORAS_ENCODER_CW;
+        xQueueSendToBackFromISR(eventQueue, &event, &xHigherPriorityTaskWoken);
+    });
+    button.registerCallback(BUTTON_PRESS_DOWN, [](void* button_handle, void* user_data) {
+        auto encoder = (RotaryEncoderWithButtonIndev*) user_data;
+        RotaryEncoderWithButtonEvent event = ORAS_ENCODER_PRESS;
+        // static BaseType_t xHigherPriorityTaskWoken;
+        xQueueSendToBackFromISR(encoder->eventQueue, &event, &xHigherPriorityTaskWoken);
+    }, {}, this);
+    button.registerCallback(BUTTON_LONG_PRESS_START, [](void* button_handle, void* user_data) {
+        auto encoder = (RotaryEncoderWithButtonIndev*) user_data;
+        RotaryEncoderWithButtonEvent event = ORAS_ENCODER_PRESS;
+        // static BaseType_t xHigherPriorityTaskWoken;
+        xQueueSendToBackFromISR(encoder->eventQueue, &event, &xHigherPriorityTaskWoken);
+    }, {.long_press = 210}, this);
+    button.registerCallback(BUTTON_PRESS_UP, [](void* button_handle, void* user_data) {
+        auto encoder = (RotaryEncoderWithButtonIndev*) user_data;
+        RotaryEncoderWithButtonEvent event = ORAS_ENCODER_RELEASE;
+        // static BaseType_t xHigherPriorityTaskWoken;
+        xQueueSendToBackFromISR(encoder->eventQueue, &event, &xHigherPriorityTaskWoken);
+    }, {}, this);
+
+    // spawn event handler thread
+    eventHandlerDaemon = std::move(std::thread(handleEventQueue, std::ref(*this)));
+}
+
+void handleEventQueue(RotaryEncoderWithButtonIndev& encoder)
 {
-    lv_indev_t* encoder = lv_indev_create();
-    return encoder;
+    RotaryEncoderWithButtonEvent event;
+    for (;;)
+    {
+        xQueueReceive(encoder.eventQueue, &event, portMAX_DELAY);
+        switch (event)
+        {
+        case ORAS_ENCODER_CCW:
+            encoder.tempEncDiff--;
+            break;
+        case ORAS_ENCODER_CW:
+            encoder.tempEncDiff++;
+            break;
+        case ORAS_ENCODER_PRESS:
+            encoder.tempButtonState = LV_INDEV_STATE_PRESSED;
+            break;
+        case ORAS_ENCODER_RELEASE:
+            encoder.tempButtonState = LV_INDEV_STATE_RELEASED;
+            break;
+        }
+        {
+            std::scoped_lock lock(lvgl_mutex);
+            lv_indev_read(encoder.indevPtr);
+        }
+        ESP_LOGI("RotEnc", "processed event %d", event);
+    }
 }

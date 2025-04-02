@@ -61,6 +61,7 @@
  */
 
 #include <cstdint>
+#include <functional>
 
 #include "freertos/FreeRTOS.h"
 #include "freertos/queue.h"
@@ -129,8 +130,10 @@ constexpr uint8_t ttable[7][4] = {
  * Constructor. Each arg is the pin number for each encoder contact.
  */
 Rotary::Rotary(gpio_num_t pinClk, gpio_num_t pinDt, size_t eventQueueSize) 
-  : eventQueue(xQueueCreate(eventQueueSize, sizeof(uint8_t))), pinClk(pinClk), pinDt(pinDt)
+  : pinClk(pinClk), pinDt(pinDt)
 {  
+    if (eventQueueSize > 0) eventQueue = xQueueCreate(eventQueueSize, sizeof(uint8_t));
+    else eventQueue = nullptr;
     // initialise state.
     state = R_START;
 
@@ -156,14 +159,14 @@ void Rotary::registerInterrupts()
     // use lambda function so the interrupt has reference to the instance
     auto isrHandler = [](void* arg) 
     {
-        static_cast<Rotary*>(arg)->interrupt();
+        static_cast<Rotary*>(arg)->processPins();
     };
 
     gpio_isr_handler_add(pinClk, isrHandler, this);
     gpio_isr_handler_add(pinDt, isrHandler, this);
 }
 
-void Rotary::interrupt() 
+void Rotary::processPins() 
 {
     // Grab state of input pins.
     uint8_t pinState = gpio_get_level(pinClk) | (gpio_get_level(pinDt) << 1);
@@ -172,6 +175,22 @@ void Rotary::interrupt()
     uint8_t result = state & 0x30;
     if (result == DIR_CW || result == DIR_CCW) 
     {
-        xQueueSendToBackFromISR(eventQueue, &result, &xHigherPriorityTaskWoken);
+        if (eventQueue != nullptr) 
+            xQueueSendToBackFromISR(eventQueue, &result, &xHigherPriorityTaskWoken);
+
+        if (result == DIR_CW && callbackCW != nullptr) 
+            callbackCW();
+        else if (result == DIR_CCW && callbackCCW != nullptr) 
+            callbackCCW();
     }
+}
+
+void Rotary::setCallbackCW(std::function<void(void)>&& f)
+{
+    callbackCW = std::move(f);
+}
+
+void Rotary::setCallbackCCW(std::function<void(void)>&& f)
+{
+    callbackCCW = std::move(f);
 }

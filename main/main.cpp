@@ -40,6 +40,8 @@
 #define KNOB_EVENT_QUEUE_LENGTH 16
 #define GRAPH_POINTS_COUNT 127
 
+// LVGLMutex lvgl_mutex;
+
 struct AppState
 {
     i2c_master_bus_handle_t& i2cBus;
@@ -141,9 +143,10 @@ void renderTaskFunc(void* appStatePtr)
     std::array<Page*, 3> pages = {&dashboardPage, &arousalPage, &pressurePage};
     size_t curPageNum = 0;
     size_t prevPageNum = curPageNum;
-    withLVGL([&]() {
+    {
+        std::scoped_lock lock(lvgl_mutex);
         pages[curPageNum]->setActive();
-    });
+    }
 
     TickType_t startTick;
     uint8_t rotaryEvent;
@@ -198,35 +201,17 @@ static void renderTaskFuncEEZ(void* appStatePtr)
 
     auto [IOHandle, panelHandle] = initOLED(appState.i2cBus);
     lv_display_t* disp = initLVGL(IOHandle, panelHandle);
-    ui_init();
-
-    lv_indev_t * encoder = lv_indev_create();
-    lv_indev_set_type(encoder, LV_INDEV_TYPE_ENCODER);
-    lv_indev_set_mode(encoder, LV_INDEV_MODE_EVENT);
-    lv_indev_set_driver_data(encoder, appStatePtr);
-
-    struct TempEncoderData
     {
-        int32_t encDiff;
-        bool buttonIsDown;
-    };
-
-    auto encoderReadCB = [](lv_indev_t * indev, lv_indev_data_t * data) {
-        AppState& appState = *(reinterpret_cast<AppState*>(lv_indev_get_driver_data(indev)));
-    };
-    lv_indev_set_read_cb(encoder, encoderReadCB);
-
-    auto knobButtonCB = [](void *button_handle, void *encoder) {
-        lv_indev_read((lv_indev_t*) encoder);
-    };
-    appState.knobButton.registerCallback(BUTTON_PRESS_DOWN, [](void *button_handle, void *encoder) {
-        lv_indev_read((lv_indev_t*) encoder);
-    }, {}, (void*) encoder);
-    appState.knobButton.registerCallback(BUTTON_PRESS_UP, [](void *button_handle, void *encoder) {
-        lv_indev_read((lv_indev_t*) encoder);
-    }, {}, (void*) encoder);
-
-    lv_screen_load(objects.page_settings);
+        std::scoped_lock lock(lvgl_mutex);
+        ui_init();
+    }
+    RotaryEncoderWithButtonIndev encoder (PIN_ROTARY_CLK, PIN_ROTARY_DT, PIN_ROTARY_SW, 0);
+    {
+        std::scoped_lock lock(lvgl_mutex);
+        lv_group_set_wrap(groups.group_encoder, false);
+        lv_indev_set_group(encoder.indevPtr, groups.group_encoder);
+        lv_screen_load(objects.page_settings);
+    }
 
     for (;;) { vTaskDelay(portMAX_DELAY); }
 }
@@ -243,7 +228,6 @@ void arousalTaskFunc(void* appStatePtr)
         arousalMonitor.tick();
         // printf(">pressure:%f\n", arousalMonitor.getPressure());
         // printf(">arousal:%f\n", arousalMonitor.getArousal());
-        vTaskDelay(1);
     }
 }
 

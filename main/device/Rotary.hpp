@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cstdint>
+#include <functional>
 
 #include "driver/gpio.h"
 #include "freertos/FreeRTOS.h"
@@ -22,11 +23,15 @@ class Rotary
 public:
     Rotary(gpio_num_t pinClk, gpio_num_t pinDt, size_t eventQueueSize);
     QueueHandle_t eventQueue;
+    void setCallbackCW(std::function<void(void)>&& f);
+    void setCallbackCCW(std::function<void(void)>&& f);
 private:
     uint8_t state;
     gpio_num_t pinClk;
     gpio_num_t pinDt;
+    std::function<void(void)> callbackCW;
+    std::function<void(void)> callbackCCW;
     
-    void interrupt();
+    void processPins();
     void registerInterrupts();
 };

@@ -34,3 +34,10 @@ inline void withLVGL(const std::function<void ()>& func, TickType_t delay = port
         ESP_LOGE("withLVGL", "could NOT acquire lvgl port mutex");
     }
 };
+
+struct LVGLMutex
+{
+    inline void lock() { lvgl_port_lock(portMAX_DELAY); };
+    inline void unlock() { lvgl_port_unlock(); };
+};
+inline LVGLMutex lvgl_mutex;

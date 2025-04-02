@@ -95,12 +95,11 @@ dependencies:
     source:
       type: idf
     version: 5.3.2
-  lvgl/lvgl:
-    component_hash: 096c69af22eaf8a2b721e3913da91918c5e6bf1a762a113ec01f401aa61337a0
+  lvgl:
     dependencies: []
     source:
-      registry_url: https://components.espressif.com/
-      type: service
+      path: /home/oras/codes/_myprojects/esp/edger-idf/components/lvgl
+      type: local
     version: 9.2.2
 direct_dependencies:
 - ads111x
@@ -112,7 +111,6 @@ direct_dependencies:
 - espressif/led_strip
 - i2cdev
 - idf
-- lvgl/lvgl
-manifest_hash: fb87de7ca62bc68fa9aa0eceab98488d403603b687c421c99f429c4c724be9cf
+manifest_hash: 402b9e3057b9a71e42cb5c69f51acbab180e988f66b73b2597f1577223be1831
 target: esp32c6
 version: 2.0.0

@@ -108,7 +108,8 @@
         "lvgl_demo_ui.c": "cpp",
         "*.ipp": "cpp",
         "screens.h": "c",
-        "ui.h": "c"
+        "ui.h": "c",
+        "images.h": "c"
     },
     "idf.port": "/dev/ttyACM0",
     "idf.flashType": "UART"

@@ -46,7 +46,7 @@ void loadScreen(enum ScreensEnum screenId) {
 
 void ui_init() {
     create_screens();
-    loadScreen(SCREEN_ID_PAGE_SETTINGS);
+    loadScreen(SCREEN_ID_PAGE_HOME);
 
 }
 

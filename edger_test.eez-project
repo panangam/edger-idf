@@ -14,7 +14,7 @@
       "displayWidth": 128,
       "displayHeight": 64,
       "displayBorderRadius": 0,
-      "darkTheme": true,
+      "darkTheme": false,
       "colorFormat": "BGR",
       "targetPlatform": "",
       "targetPlatformLink": "",
@@ -92,7 +92,7 @@
           "template": "#if defined(EEZ_FOR_LVGL)\n#include <eez/core/vars.h>\n#endif\n\n#include \"ui.h\"\n#include \"screens.h\"\n#include \"images.h\"\n#include \"actions.h\"\n#include \"vars.h\"\n\n//${eez-studio GUI_ASSETS_DEF}\n\n//${eez-studio LVGL_NATIVE_VARS_TABLE_DEF}\n\n//${eez-studio LVGL_ACTIONS_ARRAY_DEF}\n\n#if defined(EEZ_FOR_LVGL)\n\nvoid ui_init() {\n    eez_flow_init(assets, sizeof(assets), (lv_obj_t **)&objects, sizeof(objects), images, sizeof(images), actions);\n}\n\nvoid ui_tick() {\n    eez_flow_tick();\n    tick_screen(g_currentScreen);\n}\n\n#else\n\n#include <string.h>\n\nstatic int16_t currentScreen = -1;\n\nstatic lv_obj_t *getLvglObjectFromIndex(int32_t index) {\n    if (index == -1) {\n        return 0;\n    }\n    return ((lv_obj_t **)&objects)[index];\n}\n\nvoid loadScreen(enum ScreensEnum screenId) {\n    currentScreen = screenId - 1;\n    lv_obj_t *screen = getLvglObjectFromIndex(currentScreen);\n    lv_scr_load_anim(screen, LV_SCR_LOAD_ANIM_FADE_IN, 200, 0, false);\n}\n\nvoid ui_init() {\n    create_screens();\n//${eez-studio LVGL_LOAD_FIRST_SCREEN}\n}\n\nvoid ui_tick() {\n    tick_screen(currentScreen);\n}\n\n#endif\n"
         }
       ],
-      "destinationFolder": "main/eez_ui",
+      "destinationFolder": "main/ui/eez_ui",
       "separateFolderForImagesAndFonts": false,
       "imageExportMode": "source",
       "fontExportMode": "source",
@@ -326,7 +326,7 @@
                 "definition": {
                   "SCROLLBAR": {
                     "DEFAULT": {
-                      "bg_color": "WHITE",
+                      "bg_color": "FG",
                       "bg_opa": 0,
                       "pad_top": 0,
                       "pad_bottom": 0,
@@ -967,7 +967,7 @@
                   "type": "LVGLSpinboxWidget",
                   "left": 0,
                   "top": 0,
-                  "width": 30,
+                  "width": 31,
                   "height": 100,
                   "customInputs": [],
                   "customOutputs": [],
@@ -1216,7 +1216,14 @@
                       "disabledStateType": "literal",
                       "states": "",
                       "localStyles": {
-                        "objID": "c6a48d40-91e1-4f8e-dd7f-aecd0ac72483"
+                        "objID": "c6a48d40-91e1-4f8e-dd7f-aecd0ac72483",
+                        "definition": {
+                          "MAIN": {
+                            "DEFAULT": {
+                              "text_color": "FG"
+                            }
+                          }
+                        }
                       },
                       "group": "",
                       "groupIndex": 0,
@@ -1297,7 +1304,7 @@
       "connectionLines": [],
       "localVariables": [],
       "userProperties": [],
-      "name": "page_main",
+      "name": "page_home",
       "left": 0,
       "top": 0,
       "width": 128,
@@ -1737,7 +1744,7 @@
                   "type": "LVGLSpinboxWidget",
                   "left": 0,
                   "top": 0,
-                  "width": 30,
+                  "width": 31,
                   "height": 11,
                   "customInputs": [],
                   "customOutputs": [],
@@ -1885,7 +1892,7 @@
                   "type": "LVGLSpinboxWidget",
                   "left": 0,
                   "top": 0,
-                  "width": 30,
+                  "width": 31,
                   "height": 11,
                   "customInputs": [],
                   "customOutputs": [],
@@ -2033,7 +2040,7 @@
                   "type": "LVGLSpinboxWidget",
                   "left": 0,
                   "top": 0,
-                  "width": 30,
+                  "width": 31,
                   "height": 11,
                   "customInputs": [],
                   "customOutputs": [],
@@ -2075,7 +2082,7 @@
                   "min": 0,
                   "max": 999,
                   "rollover": false,
-                  "step": 10,
+                  "step": 1,
                   "stepType": "literal",
                   "value": 5,
                   "valueType": "literal"
@@ -2182,7 +2189,7 @@
                   "type": "LVGLContainerWidget",
                   "left": -66,
                   "top": 16,
-                  "width": 30,
+                  "width": 31,
                   "height": 100,
                   "customInputs": [],
                   "customOutputs": [],
@@ -2205,7 +2212,7 @@
                       "type": "LVGLSpinboxWidget",
                       "left": 0,
                       "top": 0,
-                      "width": 24,
+                      "width": 25,
                       "height": 11,
                       "customInputs": [],
                       "customOutputs": [],
@@ -2242,7 +2249,7 @@
                         "definition": {
                           "MAIN": {
                             "DEFAULT": {
-                              "max_width": 24
+                              "max_width": 25
                             }
                           }
                         }
@@ -2431,7 +2438,7 @@
                   "type": "LVGLContainerWidget",
                   "left": -66,
                   "top": 16,
-                  "width": 30,
+                  "width": 31,
                   "height": 100,
                   "customInputs": [],
                   "customOutputs": [],
@@ -2454,7 +2461,7 @@
                       "type": "LVGLSpinboxWidget",
                       "left": 0,
                       "top": 0,
-                      "width": 24,
+                      "width": 25,
                       "height": 11,
                       "customInputs": [],
                       "customOutputs": [],
@@ -2491,7 +2498,7 @@
                         "definition": {
                           "MAIN": {
                             "DEFAULT": {
-                              "max_width": 24
+                              "max_width": 25
                             }
                           }
                         }
@@ -2687,7 +2694,7 @@
                   "type": "LVGLSpinboxWidget",
                   "left": 0,
                   "top": 0,
-                  "width": 30,
+                  "width": 31,
                   "height": 11,
                   "customInputs": [],
                   "customOutputs": [],
@@ -2731,7 +2738,7 @@
                   "min": 0,
                   "max": 999,
                   "rollover": false,
-                  "step": 10,
+                  "step": 1,
                   "stepType": "literal",
                   "value": 10,
                   "valueType": "literal"
@@ -2837,7 +2844,7 @@
                   "type": "LVGLSpinboxWidget",
                   "left": 0,
                   "top": 0,
-                  "width": 30,
+                  "width": 31,
                   "height": 11,
                   "customInputs": [],
                   "customOutputs": [],
@@ -2880,7 +2887,7 @@
                   "min": 0,
                   "max": 999,
                   "rollover": false,
-                  "step": 10,
+                  "step": 1,
                   "stepType": "literal",
                   "value": 10,
                   "valueType": "literal"
@@ -2986,7 +2993,7 @@
                   "type": "LVGLContainerWidget",
                   "left": -66,
                   "top": 16,
-                  "width": 30,
+                  "width": 31,
                   "height": 100,
                   "customInputs": [],
                   "customOutputs": [],
@@ -3009,7 +3016,7 @@
                       "type": "LVGLSpinboxWidget",
                       "left": 0,
                       "top": 0,
-                      "width": 24,
+                      "width": 25,
                       "height": 11,
                       "customInputs": [],
                       "customOutputs": [],
@@ -3046,7 +3053,7 @@
                         "definition": {
                           "MAIN": {
                             "DEFAULT": {
-                              "max_width": 24
+                              "max_width": 25
                             }
                           }
                         }
@@ -3213,7 +3220,7 @@
           "definition": {
             "MAIN": {
               "DEFAULT": {
-                "text_color": "WHITE",
+                "text_color": "FG",
                 "text_font": "tamzen_12"
               }
             }
@@ -3230,8 +3237,8 @@
           "definition": {
             "MAIN": {
               "DEFAULT": {
-                "bg_color": "BLACK",
-                "border_color": "WHITE",
+                "bg_color": "BG",
+                "border_color": "FG",
                 "border_width": 1,
                 "border_side": "FULL",
                 "radius": 0
@@ -3239,7 +3246,7 @@
             },
             "INDICATOR": {
               "DEFAULT": {
-                "bg_color": "WHITE",
+                "bg_color": "FG",
                 "radius": 0
               }
             }
@@ -3256,47 +3263,45 @@
           "definition": {
             "MAIN": {
               "DEFAULT": {
-                "text_color": "WHITE",
-                "bg_color": "BLACK",
+                "text_color": "FG",
+                "bg_color": "BG",
                 "pad_top": 0,
                 "pad_bottom": 0,
                 "pad_left": 0,
                 "pad_right": 0,
                 "text_font": "tamzen_12",
                 "radius": 0,
-                "border_width": 0,
                 "text_align": "RIGHT",
                 "pad_row": 0,
                 "pad_column": 0,
-                "max_width": 30
-              },
-              "FOCUSED": {
-                "bg_color": "WHITE",
-                "text_color": "BLACK"
-              },
-              "FOCUS_KEY": {
-                "outline_opa": 0
+                "max_width": 31,
+                "border_width": 0
               },
               "EDITED": {
-                "outline_opa": 0
-              }
-            },
-            "SELECTED": {
-              "DEFAULT": {
-                "bg_color": "#ffffff"
+                "outline_opa": 0,
+                "bg_color": "FG",
+                "text_color": "BG"
+              },
+              "FOCUSED": {
+                "outline_width": 1,
+                "outline_pad": -1,
+                "outline_color": "FG"
+              },
+              "FOCUS_KEY": {
+                "outline_width": 1,
+                "outline_color": "FG",
+                "outline_pad": -1
               }
             },
             "CURSOR": {
-              "DEFAULT": {
-                "bg_color": "BLACK"
-              },
-              "FOCUSED": {
-                "bg_color": "WHITE",
-                "text_color": "BLACK"
-              },
               "EDITED": {
-                "text_color": "WHITE",
-                "bg_color": "BLACK"
+                "bg_color": "BG",
+                "text_color": "FG",
+                "bg_opa": 255
+              },
+              "DEFAULT": {
+                "text_color": "FG",
+                "bg_opa": 0
               }
             }
           }
@@ -3312,14 +3317,14 @@
           "definition": {
             "MAIN": {
               "DEFAULT": {
-                "text_color": "WHITE",
+                "text_color": "FG",
                 "text_font": "tamzen_12",
-                "bg_color": "BLACK",
+                "bg_color": "BG",
                 "bg_opa": 255
               },
               "FOCUSED": {
-                "bg_color": "WHITE",
-                "text_color": "BLACK",
+                "bg_color": "FG",
+                "text_color": "BG",
                 "bg_opa": 255
               }
             }
@@ -3340,15 +3345,15 @@
               "objID": "93fb0a94-3cbc-4656-cbb8-93cc235d6610",
               "definition": {
                 "MAIN": {
-                  "EDITED": {
+                  "FOCUSED": {
                     "outline_width": 1,
-                    "outline_color": "BLACK",
+                    "outline_color": "FG",
                     "outline_pad": -1
                   },
-                  "FOCUSED": {
-                    "bg_color": "WHITE",
+                  "EDITED": {
+                    "bg_color": "FG",
                     "bg_opa": 255,
-                    "text_color": "BLACK"
+                    "text_color": "BG"
                   }
                 }
               }
@@ -3388,8 +3393,8 @@
           "definition": {
             "MAIN": {
               "DEFAULT": {
-                "bg_color": "BLACK",
-                "text_color": "WHITE",
+                "bg_color": "BG",
+                "text_color": "FG",
                 "text_font": "tamzen_12",
                 "pad_row": 0,
                 "bg_opa": 255,
@@ -3454,11 +3459,11 @@
   "colors": [
     {
       "objID": "27597975-dd40-44da-c3e2-e3ddeaa93ea7",
-      "name": "WHITE"
+      "name": "FG"
     },
     {
       "objID": "66991fb0-8fb0-434e-d07a-dc5c40f92e4d",
-      "name": "BLACK"
+      "name": "BG"
     }
   ],
   "themes": [
@@ -3466,8 +3471,8 @@
       "objID": "ed882da1-8496-e314-059f-7473f6a898ba",
       "name": "Default",
       "colors": [
-        "#ffffff",
-        "#000000"
+        "#000000",
+        "#ffffff"
       ]
     }
   ]

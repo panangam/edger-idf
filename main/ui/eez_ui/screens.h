@@ -17,7 +17,7 @@ void ui_create_groups();
 
 typedef struct _objects_t {
     lv_obj_t *page_settings;
-    lv_obj_t *page_main;
+    lv_obj_t *page_home;
     lv_obj_t *title;
     lv_obj_t *scroll_area;
     lv_obj_t *obj0;
@@ -48,20 +48,21 @@ typedef struct _objects_t {
     lv_obj_t *name_3;
     lv_obj_t *spinbox_home_max_arousal;
     lv_obj_t *spinbox_home_max_motor;
+    lv_obj_t *obj1;
 } objects_t;
 
 extern objects_t objects;
 
 enum ScreensEnum {
     SCREEN_ID_PAGE_SETTINGS = 1,
-    SCREEN_ID_PAGE_MAIN = 2,
+    SCREEN_ID_PAGE_HOME = 2,
 };
 
 void create_screen_page_settings();
 void tick_screen_page_settings();
 
-void create_screen_page_main();
-void tick_screen_page_main();
+void create_screen_page_home();
+void tick_screen_page_home();
 
 void create_user_widget_row_bar(lv_obj_t *parent_obj, int startWidgetIndex);
 void tick_user_widget_row_bar(int startWidgetIndex);
@@ -76,8 +77,8 @@ enum Themes {
     THEME_ID_DEFAULT,
 };
 enum Colors {
-    COLOR_ID_WHITE,
-    COLOR_ID_BLACK,
+    COLOR_ID_FG,
+    COLOR_ID_BG,
 };
 void change_color_theme(uint32_t themeIndex);
 extern uint32_t theme_colors[1][2];

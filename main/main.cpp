@@ -66,19 +66,8 @@ extern "C" void app_main(void)
     Rotary knob(PIN_ROTARY_CLK, PIN_ROTARY_DT, KNOB_EVENT_QUEUE_LENGTH);
 
     uint32_t modeNum = 0;
-    auto button_click_cb = [](void* btn_handle, void* usr_data)
-    {
-        ESP_LOGI("btn", "click");
-        uint32_t* modeNum = reinterpret_cast<uint32_t*>(usr_data);
-        *modeNum = (*modeNum+1) % MODE_COUNT;
-    };
-    auto button_long_press_cb = [](void* btn_handle, void* usr_data)
-    {
-        ESP_LOGI("btn", "long press");
-    };
+
     Button knobButton{PIN_ROTARY_SW, 0};
-    knobButton.registerCallback(BUTTON_SINGLE_CLICK, button_click_cb, {}, &modeNum);
-    knobButton.registerCallback(BUTTON_LONG_PRESS_START, button_long_press_cb, {.long_press = 500});
 
     // initialize i2c bus
     ESP_LOGI("main", "Initialize I2C bus");

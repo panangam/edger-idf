@@ -20,13 +20,11 @@ void remove_style_style_bar(lv_obj_t *obj);
 
 // Style: style_spinbox
 lv_style_t *get_style_style_spinbox_MAIN_DEFAULT();
+lv_style_t *get_style_style_spinbox_MAIN_EDITED();
 lv_style_t *get_style_style_spinbox_MAIN_FOCUSED();
 lv_style_t *get_style_style_spinbox_MAIN_FOCUS_KEY();
-lv_style_t *get_style_style_spinbox_MAIN_EDITED();
-lv_style_t *get_style_style_spinbox_SELECTED_DEFAULT();
-lv_style_t *get_style_style_spinbox_CURSOR_DEFAULT();
-lv_style_t *get_style_style_spinbox_CURSOR_FOCUSED();
 lv_style_t *get_style_style_spinbox_CURSOR_EDITED();
+lv_style_t *get_style_style_spinbox_CURSOR_DEFAULT();
 void add_style_style_spinbox(lv_obj_t *obj);
 void remove_style_style_spinbox(lv_obj_t *obj);
 
@@ -42,8 +40,8 @@ void add_style_style_container_master(lv_obj_t *obj);
 void remove_style_style_container_master(lv_obj_t *obj);
 
 // Style: style_title
-lv_style_t *get_style_style_title_MAIN_EDITED();
 lv_style_t *get_style_style_title_MAIN_FOCUSED();
+lv_style_t *get_style_style_title_MAIN_EDITED();
 lv_style_t *get_style_style_title_MAIN_DEFAULT();
 void add_style_style_title(lv_obj_t *obj);
 void remove_style_style_title(lv_obj_t *obj);

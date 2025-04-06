@@ -1,5 +1,7 @@
 #pragma once
 
+#include <mutex>
+
 #include "GraphPage.hpp"
 
 class PressurePage : public GraphPage
@@ -11,19 +13,16 @@ public:
         uint32_t pointCount
     ) : GraphPage(disp, "Pressure", pointCount, GRAPH_AUTOSCALE, GRAPH_AUTOSCALE), 
         arousalMonitor(arousalMonitor) {};
-    void tick() override;
+    void tick();
 
     ArousalMonitor& arousalMonitor;
 };
 
 void PressurePage::tick()
 {
-    float newVal;
-    arousalMonitor.with([&]() mutable {
-        newVal = arousalMonitor.getPressure();
-    });
-
-    withLVGL([&]() {
+    float newVal = arousalMonitor.getPressure();
+    {
+        std::scoped_lock lock(lvgl_mutex);
         addPoint(std::round(newVal));
-    });
+    }
 }

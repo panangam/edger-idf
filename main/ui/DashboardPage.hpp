@@ -51,13 +51,13 @@ DashboardPage::DashboardPage(
     withLVGL([&]() mutable {
         static lv_style_t style_bar_bg;
         lv_style_init(&style_bar_bg);
-        lv_style_set_border_color(&style_bar_bg, WHITE);
+        lv_style_set_border_color(&style_bar_bg, FG);
         lv_style_set_border_width(&style_bar_bg, 1);
         lv_style_set_radius(&style_bar_bg, 0);
 
         static lv_style_t style_bar_indic;
         lv_style_init(&style_bar_indic);
-        lv_style_set_bg_color(&style_bar_indic, WHITE);
+        lv_style_set_bg_color(&style_bar_indic, FG);
         lv_style_set_radius(&style_bar_indic, 0);
 
         // row

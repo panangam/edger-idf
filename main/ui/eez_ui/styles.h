@@ -56,6 +56,11 @@ lv_style_t *get_style_style_row_container_spinbox_MAIN_DEFAULT();
 void add_style_style_row_container_spinbox(lv_obj_t *obj);
 void remove_style_style_row_container_spinbox(lv_obj_t *obj);
 
+// Style: style_chart
+lv_style_t *get_style_style_chart_MAIN_DEFAULT();
+void add_style_style_chart(lv_obj_t *obj);
+void remove_style_style_chart(lv_obj_t *obj);
+
 
 
 #ifdef __cplusplus

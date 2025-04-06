@@ -94,7 +94,7 @@ void graphUI(lv_display_t* disp)
     lv_obj_set_style_pad_all(chart, 0, LV_PART_MAIN);
     lv_chart_set_point_count(chart, 63);
 
-    lv_chart_series_t* ser1 = lv_chart_add_series(chart, WHITE, LV_CHART_AXIS_PRIMARY_Y);
+    lv_chart_series_t* ser1 = lv_chart_add_series(chart, FG, LV_CHART_AXIS_PRIMARY_Y);
     // lv_chart_series_t * ser2 = lv_chart_add_series(chart, WHITE, LV_CHART_AXIS_SECONDARY_Y);
     int32_t* ser1_y_points = lv_chart_get_y_array(chart, ser1);
 

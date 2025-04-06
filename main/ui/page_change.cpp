@@ -5,7 +5,7 @@
 #include "eez_ui/actions.h"
 #include "eez_ui/ui.h"
 
-#define TAG "actions.c"
+#define TAG "page_change.cpp"
 
 #define NUM_PAGES 2  // must manually edit to match number of pages in rotation
 

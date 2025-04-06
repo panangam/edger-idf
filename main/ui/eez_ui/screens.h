@@ -17,20 +17,29 @@ void ui_create_groups();
 
 typedef struct _objects_t {
     lv_obj_t *page_home;
+    lv_obj_t *page_graph_arousal;
+    lv_obj_t *page_graph_pressure;
     lv_obj_t *page_settings;
     lv_obj_t *title_home;
+    lv_obj_t *label_num_denied;
     lv_obj_t *row_bar_arousal;
     lv_obj_t *name_1;
     lv_obj_t *bar_arousal;
-    lv_obj_t *label_value_arousal;
+    lv_obj_t *label_bar_value_arousal;
     lv_obj_t *row_bar_motor;
     lv_obj_t *name_2;
     lv_obj_t *bar_motor;
-    lv_obj_t *label_value_motor;
+    lv_obj_t *label_bar_value_motor;
     lv_obj_t *name_3;
     lv_obj_t *spinbox_home_max_arousal;
     lv_obj_t *spinbox_home_max_motor;
     lv_obj_t *obj0;
+    lv_obj_t *title_home_1;
+    lv_obj_t *label_chart_value_arousal;
+    lv_obj_t *chart_arousal;
+    lv_obj_t *title_home_2;
+    lv_obj_t *label_chart_value_pressure;
+    lv_obj_t *chart_pressure;
     lv_obj_t *title;
     lv_obj_t *scroll_area;
     lv_obj_t *obj1;
@@ -55,11 +64,19 @@ extern objects_t objects;
 
 enum ScreensEnum {
     SCREEN_ID_PAGE_HOME = 1,
-    SCREEN_ID_PAGE_SETTINGS = 2,
+    SCREEN_ID_PAGE_GRAPH_AROUSAL = 2,
+    SCREEN_ID_PAGE_GRAPH_PRESSURE = 3,
+    SCREEN_ID_PAGE_SETTINGS = 4,
 };
 
 void create_screen_page_home();
 void tick_screen_page_home();
+
+void create_screen_page_graph_arousal();
+void tick_screen_page_graph_arousal();
+
+void create_screen_page_graph_pressure();
+void tick_screen_page_graph_pressure();
 
 void create_screen_page_settings();
 void tick_screen_page_settings();

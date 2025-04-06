@@ -47,7 +47,7 @@ GraphPage::GraphPage(
         lv_chart_set_point_count(chart, pointCount);
 
         // data series
-        series = lv_chart_add_series(chart, WHITE, LV_CHART_AXIS_PRIMARY_Y);
+        series = lv_chart_add_series(chart, FG, LV_CHART_AXIS_PRIMARY_Y);
     });
 }
 

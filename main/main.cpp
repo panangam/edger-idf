@@ -20,9 +20,13 @@
 #include "EdgingController.hpp"
 
 #include "ui/view.hpp"
-#include "ui/ArousalPage.hpp"
-#include "ui/PressurePage.hpp"
-#include "ui/DashboardPage.hpp"
+// #include "ui/ArousalPage.hpp"
+// #include "ui/PressurePage.hpp"
+// #include "ui/DashboardPage.hpp"
+
+#include "ui/ArousalPageEEZ.hpp"
+#include "ui/PressurePageEEZ.hpp"
+#include "ui/DashboardPageEEZ.hpp"
 
 #include "ui/eez_ui/ui.h"
 
@@ -119,70 +123,70 @@ extern "C" void app_main(void)
     for (;;) { vTaskDelay(portMAX_DELAY); }
 }
 
-void renderTaskFunc(void* appStatePtr)
-{
-    AppState& appState = *(reinterpret_cast<AppState*>(appStatePtr));
+// void renderTaskFunc(void* appStatePtr)
+// {
+//     AppState& appState = *(reinterpret_cast<AppState*>(appStatePtr));
 
-    auto [IOHandle, panelHandle] = initOLED(appState.i2cBus);
-    lv_display_t* disp = initLVGL(IOHandle, panelHandle);
-    ArousalPage arousalPage{disp, appState.arousalMonitor, GRAPH_POINTS_COUNT};
-    PressurePage pressurePage{disp, appState.arousalMonitor, GRAPH_POINTS_COUNT};
-    DashboardPage dashboardPage{disp, appState.arousalMonitor, appState.edgingController};
+//     auto [IOHandle, panelHandle] = initOLED(appState.i2cBus);
+//     lv_display_t* disp = initLVGL(IOHandle, panelHandle);
+//     ArousalPage arousalPage{disp, appState.arousalMonitor, GRAPH_POINTS_COUNT};
+//     PressurePage pressurePage{disp, appState.arousalMonitor, GRAPH_POINTS_COUNT};
+//     DashboardPage dashboardPage{disp, appState.arousalMonitor, appState.edgingController};
 
-    std::array<Page*, 3> pages = {&dashboardPage, &arousalPage, &pressurePage};
-    size_t curPageNum = 0;
-    size_t prevPageNum = curPageNum;
-    {
-        std::scoped_lock lock(lvgl_mutex);
-        pages[curPageNum]->setActive();
-    }
+//     std::array<Page*, 3> pages = {&dashboardPage, &arousalPage, &pressurePage};
+//     size_t curPageNum = 0;
+//     size_t prevPageNum = curPageNum;
+//     {
+//         std::scoped_lock lock(lvgl_mutex);
+//         pages[curPageNum]->setActive();
+//     }
 
-    TickType_t startTick;
-    uint8_t rotaryEvent;
+//     TickType_t startTick;
+//     uint8_t rotaryEvent;
 
-    ESP_LOGI("renderTaskFunc", "starting render loop");
+//     ESP_LOGI("renderTaskFunc", "starting render loop");
 
-    for (;;)
-    {
-        startTick = xTaskGetTickCount();
-        while (xQueueReceive(appState.knob.eventQueue, &rotaryEvent, 0) == pdTRUE)
-        {
-            if (appState.modeNum == 0)
-            {
-                // detect rotary event
-                if (rotaryEvent == DIR_CCW) 
-                {
-                    ESP_LOGI(TAG, "Got CCW");
-                    curPageNum = (curPageNum + pages.size() - 1) % pages.size();
-                }
-                else if (rotaryEvent == DIR_CW) 
-                {
-                    ESP_LOGI(TAG, "Got CW");
-                    curPageNum = (curPageNum + 1) % pages.size();
-                }
-                else ESP_LOGE("task render", "got non-cw and non-ccw rotary event: %d", rotaryEvent);
+//     for (;;)
+//     {
+//         startTick = xTaskGetTickCount();
+//         while (xQueueReceive(appState.knob.eventQueue, &rotaryEvent, 0) == pdTRUE)
+//         {
+//             if (appState.modeNum == 0)
+//             {
+//                 // detect rotary event
+//                 if (rotaryEvent == DIR_CCW) 
+//                 {
+//                     ESP_LOGI(TAG, "Got CCW");
+//                     curPageNum = (curPageNum + pages.size() - 1) % pages.size();
+//                 }
+//                 else if (rotaryEvent == DIR_CW) 
+//                 {
+//                     ESP_LOGI(TAG, "Got CW");
+//                     curPageNum = (curPageNum + 1) % pages.size();
+//                 }
+//                 else ESP_LOGE("task render", "got non-cw and non-ccw rotary event: %d", rotaryEvent);
             
-                if (curPageNum != prevPageNum)
-                {
-                    ESP_LOGI(TAG, "Page is changed to number %d", curPageNum);
-                    withLVGL([&]() {
-                        pages[curPageNum]->setActive();
-                    });
-                    prevPageNum = curPageNum;
-                }
-            }
-            else
-            {
-                pages[curPageNum]->onEvent(rotaryEvent, appState.modeNum);
-            }
-        }
+//                 if (curPageNum != prevPageNum)
+//                 {
+//                     ESP_LOGI(TAG, "Page is changed to number %d", curPageNum);
+//                     withLVGL([&]() {
+//                         pages[curPageNum]->setActive();
+//                     });
+//                     prevPageNum = curPageNum;
+//                 }
+//             }
+//             else
+//             {
+//                 pages[curPageNum]->onEvent(rotaryEvent, appState.modeNum);
+//             }
+//         }
 
-        pages[curPageNum]->tick();
-        // HACK: flush every frame to circumvent dupont connection error which stops the app
-        lvgl_port_flush_ready(disp);
-        vTaskDelayUntil(&startTick, configTICK_RATE_HZ / 30);
-    }
-}
+//         pages[curPageNum]->tick();
+//         // HACK: flush every frame to circumvent dupont connection error which stops the app
+//         lvgl_port_flush_ready(disp);
+//         vTaskDelayUntil(&startTick, configTICK_RATE_HZ / 30);
+//     }
+// }
 
 static void renderTaskFuncEEZ(void* appStatePtr)
 {

@@ -119,6 +119,14 @@
       "localVariables": [],
       "userProperties": [],
       "name": "change_page"
+    },
+    {
+      "objID": "1113db0b-907a-427c-df2c-558f712f21b6",
+      "components": [],
+      "connectionLines": [],
+      "localVariables": [],
+      "userProperties": [],
+      "name": "on_spinbox_value_changed"
     }
   ],
   "userPages": [
@@ -3860,9 +3868,10 @@
             },
             "CURSOR": {
               "EDITED": {
+                "bg_opa": 255,
                 "bg_color": "BG",
                 "text_color": "FG",
-                "bg_opa": 255
+                "pad_left": 1
               },
               "DEFAULT": {
                 "text_color": "FG",

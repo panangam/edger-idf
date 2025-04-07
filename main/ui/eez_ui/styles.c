@@ -162,9 +162,10 @@ lv_style_t *get_style_style_spinbox_MAIN_FOCUS_KEY() {
 };
 
 void init_style_style_spinbox_CURSOR_EDITED(lv_style_t *style) {
+    lv_style_set_bg_opa(style, 255);
     lv_style_set_bg_color(style, lv_color_hex(theme_colors[active_theme_index][1]));
     lv_style_set_text_color(style, lv_color_hex(theme_colors[active_theme_index][0]));
-    lv_style_set_bg_opa(style, 255);
+    lv_style_set_pad_left(style, 1);
 };
 
 lv_style_t *get_style_style_spinbox_CURSOR_EDITED() {

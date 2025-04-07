@@ -16,7 +16,7 @@ class SettingsPageEEZ : public Page
 public:
     SettingsPageEEZ(EdgingController& edgingController)
       : Page{objects.page_settings}, edgingController(edgingController) {};
-    void tick() override { ESP_LOGI("SettingsPage", "tick"); };
+    // void tick() override { ESP_LOGI("SettingsPage", "tick"); };
 
     EdgingController& edgingController;
 };

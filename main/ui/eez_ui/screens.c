@@ -342,7 +342,7 @@ void create_screen_page_graph_arousal() {
             lv_obj_set_style_bg_opa(obj, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
             lv_obj_set_style_border_width(obj, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
             lv_obj_set_style_radius(obj, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
-            lv_obj_add_event_cb(obj, action_change_page, LV_EVENT_KEY, (void *)0);
+            lv_obj_add_event_cb(obj, action_change_page, LV_EVENT_KEY, (void *)1);
             add_style_style_title(obj);
             {
                 lv_obj_t *parent_obj = obj;
@@ -401,7 +401,7 @@ void create_screen_page_graph_pressure() {
             lv_obj_set_style_bg_opa(obj, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
             lv_obj_set_style_border_width(obj, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
             lv_obj_set_style_radius(obj, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
-            lv_obj_add_event_cb(obj, action_change_page, LV_EVENT_KEY, (void *)0);
+            lv_obj_add_event_cb(obj, action_change_page, LV_EVENT_KEY, (void *)2);
             add_style_style_title(obj);
             {
                 lv_obj_t *parent_obj = obj;
@@ -460,7 +460,7 @@ void create_screen_page_settings() {
             lv_obj_set_style_bg_opa(obj, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
             lv_obj_set_style_border_width(obj, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
             lv_obj_set_style_radius(obj, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
-            lv_obj_add_event_cb(obj, action_change_page, LV_EVENT_KEY, (void *)1);
+            lv_obj_add_event_cb(obj, action_change_page, LV_EVENT_KEY, (void *)3);
             add_style_style_title(obj);
             {
                 lv_obj_t *parent_obj = obj;

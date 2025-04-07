@@ -1196,7 +1196,7 @@
                   "eventName": "KEY",
                   "handlerType": "action",
                   "action": "change_page",
-                  "userData": 0
+                  "userData": 1
                 }
               ],
               "identifier": "title_home_1",
@@ -1432,7 +1432,7 @@
                   "eventName": "KEY",
                   "handlerType": "action",
                   "action": "change_page",
-                  "userData": 0
+                  "userData": 2
                 }
               ],
               "identifier": "title_home_2",
@@ -1668,7 +1668,7 @@
                   "eventName": "KEY",
                   "handlerType": "action",
                   "action": "change_page",
-                  "userData": 1
+                  "userData": 3
                 }
               ],
               "identifier": "title",

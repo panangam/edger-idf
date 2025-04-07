@@ -19,7 +19,7 @@ public:
         float newVal = arousalMonitor.getPressure();
         {
             std::scoped_lock lock(lvgl_mutex);
-            addPoint(std::round(newVal));
+            addPoint(newVal);
         }
     };
 

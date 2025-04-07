@@ -23,9 +23,9 @@ public:
         float newVal = arousalMonitor.getArousal();
         {
             std::scoped_lock lock(lvgl_mutex);
-            addPoint(std::round(newVal));
+            addPoint(newVal);
         }
-        ESP_LOGI("ArousalPage", "arousal: %f", newVal);
+        // ESP_LOGI("ArousalPage", "arousal: %f", newVal);
     };
 
     ArousalMonitor& arousalMonitor;

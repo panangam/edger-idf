@@ -26,7 +26,7 @@ public:
     );
     void loadPage() override;
     void autoScaleChart();
-    void addPoint(int32_t val);
+    void addPoint(float val);
 
     lv_obj_t* valLabel;
     lv_obj_t* chart;

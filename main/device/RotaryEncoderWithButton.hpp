@@ -36,9 +36,6 @@ public:
 
     std::atomic<int16_t> tempEncDiff;
     lv_indev_state_t tempButtonState;
-
-    QueueHandle_t eventQueue;
-    std::thread eventHandlerDaemon;
 };
 
 void handleEventQueue(RotaryEncoderWithButtonIndev& encoder);
@@ -48,7 +45,7 @@ RotaryEncoderWithButtonIndev::RotaryEncoderWithButtonIndev(
     gpio_num_t pinDt,
     gpio_num_t pinSw,
     uint32_t swDebounceMS
-) : rotary(pinClk, pinDt, 0), button(pinSw, false, 200), eventQueue(xQueueCreate(16, sizeof(uint8_t))) {
+) : rotary(pinClk, pinDt, 0), button(pinSw, false, 200) {
     // create lvgl indev
     {
         std::scoped_lock lock(lvgl_mutex);
@@ -87,35 +84,4 @@ RotaryEncoderWithButtonIndev::RotaryEncoderWithButtonIndev(
         encoder->tempButtonState = LV_INDEV_STATE_RELEASED;
     }, {}, this);
 
-    // spawn event handler thread
-    // eventHandlerDaemon = std::move(std::thread(handleEventQueue, std::ref(*this)));
 }
-
-// void handleEventQueue(RotaryEncoderWithButtonIndev& encoder)
-// {
-//     RotaryEncoderWithButtonEvent event;
-//     for (;;)
-//     {
-//         xQueueReceive(encoder.eventQueue, &event, portMAX_DELAY);
-//         switch (event)
-//         {
-//         case ORAS_ENCODER_CCW:
-//             encoder.tempEncDiff--;
-//             break;
-//         case ORAS_ENCODER_CW:
-//             encoder.tempEncDiff++;
-//             break;
-//         case ORAS_ENCODER_PRESS:
-//             encoder.tempButtonState = LV_INDEV_STATE_PRESSED;
-//             break;
-//         case ORAS_ENCODER_RELEASE:
-//             encoder.tempButtonState = LV_INDEV_STATE_RELEASED;
-//             break;
-//         }
-//         {
-//             std::scoped_lock lock(lvgl_mutex);
-//             lv_indev_read(encoder.indevPtr);
-//         }
-//         ESP_LOGI("RotEnc", "processed event %d", event);
-//     }
-// }

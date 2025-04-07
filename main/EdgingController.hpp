@@ -14,14 +14,14 @@
 
 struct EdgingSettings
 {
-    float edgeArousal = 100;
-    float cooldownArousalMax = 100;
+    float edgeArousal = 300;
+    float cooldownArousalMax = 150;
     float cooldownTimeMin = 10;  // seconds
     float rampUpTime = 60;  // seconds
     float rampPlateauTime = 30;  // seconds
     float rampBreakRatio = 0.5;
-    float motorSpeedMin = 0.1;
-    float motorSpeedMax = 0.3;
+    float motorSpeedMin = 0.2;
+    float motorSpeedMax = 0.4;
 };
 
 enum EdgingState_t

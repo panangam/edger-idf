@@ -6,7 +6,7 @@ class Page
 {
 public:
     Page(lv_obj_t* screen) : screen(screen) {};
-    virtual void tick() = 0;
+    virtual void tick() {};
     virtual void loadPage() {
         lv_screen_load(screen);
     };

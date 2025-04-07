@@ -33,11 +33,9 @@ GraphPage::GraphPage(
     if (rangeMax == GRAPH_AUTOSCALE) rangeMax = INT32_MIN;
     else rangeMax = rangeMax * GRAPH_SCALE_MULTIPLIER;
 
-    {
-        std::scoped_lock lock(lvglMutex);
-        lvSetStyleMyChart(chart);
-        series = lv_chart_add_series(chart, FG, LV_CHART_AXIS_PRIMARY_Y);
-    }
+    std::scoped_lock lock(lvglMutex);
+    lvSetStyleMyChart(chart);
+    series = lv_chart_add_series(chart, FG, LV_CHART_AXIS_PRIMARY_Y);
 }
 
 void GraphPage::lvAutoScaleChart()

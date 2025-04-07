@@ -27,10 +27,8 @@ public:
         esp_timer_create_args_t timerArgs{
             .callback = [](void* arg) {
                 auto arousalMonitor = reinterpret_cast<ArousalMonitor*>(arg);
-                {
-                    std::scoped_lock lock(arousalMonitor->arousalMutex);
-                    arousalMonitor->arousal *= arousalMonitor->arousalDecayRate;
-                }
+                std::scoped_lock lock(arousalMonitor->arousalMutex);
+                arousalMonitor->arousal *= arousalMonitor->arousalDecayRate;
             },
             .arg = this,
             .name = "arousalDecayTimer"

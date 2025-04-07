@@ -136,6 +136,7 @@ void renderTaskFuncEEZ(void* appStatePtr)
         appState.arousalMonitor, 
         appState.edgingController
     };
+    // register global pages manager pointer so plain c functions can access it
     global_pages_manager = &pages;
     RotaryEncoderWithButtonIndev encoder (PIN_ROTARY_CLK, PIN_ROTARY_DT, PIN_ROTARY_SW, 0);
     {

@@ -20,7 +20,14 @@ public:
     ) : Page{objects.page_home},
         arousalMonitor(arousalMonitor), 
         edgingController(edgingController) 
-    {};
+    {
+        // register page load event
+        lv_obj_add_event_cb(screen, [](lv_event_t* e) {
+            auto page = reinterpret_cast<DashboardPage*>(lv_event_get_user_data(e));
+            std::scoped_lock lock(lvglMutex);
+            page->lvUpdateSpinboxValues();
+        }, LV_EVENT_SCREEN_LOAD_START, this);
+    };
     void tick() override
     {
         uint32_t numDenied = edgingController.numDenied;
@@ -44,11 +51,10 @@ public:
             // lv_label_set_text_fmt(labelNumMaxSpeed, "%ld%%", static_cast<int32_t>(maxSpeed*100));
         }
     };
-    void lvLoadPage() override
+    void lvUpdateSpinboxValues()
     {
         lv_spinbox_set_value(spinboxMaxArousal, static_cast<int32_t>(edgingController.settings.edgeArousal));
         lv_spinbox_set_value(spinboxMaxMotor, static_cast<int32_t>(edgingController.settings.motorSpeedMax * 100));
-        Page::lvLoadPage();
     }
 
     static constexpr uint32_t BAR_RANGE = 50;

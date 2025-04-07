@@ -11,6 +11,6 @@ public:
         lv_screen_load(screen);
     };
 
-private:
+protected:
     lv_obj_t* screen;
 };

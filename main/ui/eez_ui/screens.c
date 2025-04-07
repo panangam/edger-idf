@@ -52,14 +52,14 @@ static void event_handler_cb_page_settings_page_settings(lv_event_t *e) {
         // group: group_encoder
         lv_group_remove_all_objs(groups.group_encoder);
         lv_group_add_obj(groups.group_encoder, objects.title);
-        lv_group_add_obj(groups.group_encoder, objects.obj1__spinbox_max_arousal_7);
-        lv_group_add_obj(groups.group_encoder, objects.obj1__spinbox_max_arousal_13);
-        lv_group_add_obj(groups.group_encoder, objects.obj1__spinbox_max_arousal_14);
-        lv_group_add_obj(groups.group_encoder, objects.obj1__spinbox_max_motor_1);
-        lv_group_add_obj(groups.group_encoder, objects.obj1__spinbox_max_motor_2);
-        lv_group_add_obj(groups.group_encoder, objects.obj1__spinbox_max_arousal_8);
-        lv_group_add_obj(groups.group_encoder, objects.obj1__spinbox_max_arousal_9);
-        lv_group_add_obj(groups.group_encoder, objects.obj1__spinbox_max_motor_3);
+        lv_group_add_obj(groups.group_encoder, objects.settings_box__spinbox_edging_max_arousal);
+        lv_group_add_obj(groups.group_encoder, objects.settings_box__spinbox_cooldown_max_arousal);
+        lv_group_add_obj(groups.group_encoder, objects.settings_box__spinbox_cooldown_time);
+        lv_group_add_obj(groups.group_encoder, objects.settings_box__spinbox_motor_min_percent);
+        lv_group_add_obj(groups.group_encoder, objects.settings_box__spinbox_motor_max_percent);
+        lv_group_add_obj(groups.group_encoder, objects.settings_box__spinbox_motor_ramp_time);
+        lv_group_add_obj(groups.group_encoder, objects.settings_box__spinbox_motor_plateau_time);
+        lv_group_add_obj(groups.group_encoder, objects.settings_box__spinbox_motor_break_ratio_percent);
     }
 }
 
@@ -500,8 +500,9 @@ void create_screen_page_settings() {
             {
                 lv_obj_t *parent_obj = obj;
                 {
+                    // settings_box
                     lv_obj_t *obj = lv_obj_create(parent_obj);
-                    objects.obj1 = obj;
+                    objects.settings_box = obj;
                     lv_obj_set_pos(obj, 0, 0);
                     lv_obj_set_size(obj, 128, 128);
                     lv_obj_set_style_pad_left(obj, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
@@ -664,7 +665,7 @@ void create_user_widget_settings_container(lv_obj_t *parent_obj, int startWidget
                             lv_label_set_text(obj, "EdgeMaxArsl:");
                         }
                         {
-                            // spinbox_max_arousal_7
+                            // spinbox_edging_max_arousal
                             lv_obj_t *obj = lv_spinbox_create(parent_obj);
                             ((lv_obj_t **)&objects)[startWidgetIndex + 1] = obj;
                             lv_obj_set_pos(obj, 0, 0);
@@ -703,7 +704,7 @@ void create_user_widget_settings_container(lv_obj_t *parent_obj, int startWidget
                             lv_label_set_text(obj, "CooldwnMaxArsl:");
                         }
                         {
-                            // spinbox_max_arousal_13
+                            // spinbox_cooldown_max_arousal
                             lv_obj_t *obj = lv_spinbox_create(parent_obj);
                             ((lv_obj_t **)&objects)[startWidgetIndex + 3] = obj;
                             lv_obj_set_pos(obj, 0, 0);
@@ -742,7 +743,7 @@ void create_user_widget_settings_container(lv_obj_t *parent_obj, int startWidget
                             lv_label_set_text(obj, "CooldwnTime:");
                         }
                         {
-                            // spinbox_max_arousal_14
+                            // spinbox_cooldown_time
                             lv_obj_t *obj = lv_spinbox_create(parent_obj);
                             ((lv_obj_t **)&objects)[startWidgetIndex + 5] = obj;
                             lv_obj_set_pos(obj, 0, 0);
@@ -797,7 +798,7 @@ void create_user_widget_settings_container(lv_obj_t *parent_obj, int startWidget
                             {
                                 lv_obj_t *parent_obj = obj;
                                 {
-                                    // spinbox_max_motor_1
+                                    // spinbox_motor_min_percent
                                     lv_obj_t *obj = lv_spinbox_create(parent_obj);
                                     ((lv_obj_t **)&objects)[startWidgetIndex + 7] = obj;
                                     lv_obj_set_pos(obj, 0, 0);
@@ -861,7 +862,7 @@ void create_user_widget_settings_container(lv_obj_t *parent_obj, int startWidget
                             {
                                 lv_obj_t *parent_obj = obj;
                                 {
-                                    // spinbox_max_motor_2
+                                    // spinbox_motor_max_percent
                                     lv_obj_t *obj = lv_spinbox_create(parent_obj);
                                     ((lv_obj_t **)&objects)[startWidgetIndex + 9] = obj;
                                     lv_obj_set_pos(obj, 0, 0);
@@ -908,7 +909,7 @@ void create_user_widget_settings_container(lv_obj_t *parent_obj, int startWidget
                             lv_label_set_text(obj, "MtrRampTime:");
                         }
                         {
-                            // spinbox_max_arousal_8
+                            // spinbox_motor_ramp_time
                             lv_obj_t *obj = lv_spinbox_create(parent_obj);
                             ((lv_obj_t **)&objects)[startWidgetIndex + 10] = obj;
                             lv_obj_set_pos(obj, 0, 0);
@@ -947,7 +948,7 @@ void create_user_widget_settings_container(lv_obj_t *parent_obj, int startWidget
                             lv_label_set_text(obj, "MtrPlateauTime:");
                         }
                         {
-                            // spinbox_max_arousal_9
+                            // spinbox_motor_plateau_time
                             lv_obj_t *obj = lv_spinbox_create(parent_obj);
                             ((lv_obj_t **)&objects)[startWidgetIndex + 12] = obj;
                             lv_obj_set_pos(obj, 0, 0);
@@ -1002,7 +1003,7 @@ void create_user_widget_settings_container(lv_obj_t *parent_obj, int startWidget
                             {
                                 lv_obj_t *parent_obj = obj;
                                 {
-                                    // spinbox_max_motor_3
+                                    // spinbox_motor_break_ratio_percent
                                     lv_obj_t *obj = lv_spinbox_create(parent_obj);
                                     ((lv_obj_t **)&objects)[startWidgetIndex + 14] = obj;
                                     lv_obj_set_pos(obj, 0, 0);

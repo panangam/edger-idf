@@ -61,7 +61,7 @@ constexpr uint32_t MODE_COUNT = 3;
 
 void arousalTaskFunc(void* appStatePtr);
 void edgingTaskFunc(void* appStatePtr);
-static void renderTaskFuncEEZ(void* appStatePtr);
+void renderTaskFuncEEZ(void* appStatePtr);
 
 extern "C" void app_main(void)
 {
@@ -91,7 +91,7 @@ extern "C" void app_main(void)
     ADS1115 adc{i2cBus};
     adc.config.gain = ADS1115_GAIN_2V048;
     adc.config.mux = ADS1115_MUX_0_GND;
-    ArousalMonitor arousalMonitor{adc, 0.99, 20.0, 10};
+    ArousalMonitor arousalMonitor{adc, 0.90, 20.0, 10};
     EdgingSettings edgingSettings{};
     MotorController motorController{PIN_MOTOR_PWM, 25000};
     EdgingController edgingController{
@@ -122,7 +122,7 @@ extern "C" void app_main(void)
     for (;;) { vTaskDelay(portMAX_DELAY); }
 }
 
-static void renderTaskFuncEEZ(void* appStatePtr)
+void renderTaskFuncEEZ(void* appStatePtr)
 {
     AppState& appState = *(reinterpret_cast<AppState*>(appStatePtr));
 

@@ -20,9 +20,7 @@ float ArousalMonitor::getPressure()
 
 void ArousalMonitor::tick()
 {
-    take();
-
-    arousal *= arousalDecayRate;
+    // arousal = arousal * arousalDecayRate;
     float newPressureReading = static_cast<float>(adc.readRawValue());
     pressureQueue.push(newPressureReading);
     float pressure = getPressure();
@@ -38,6 +36,4 @@ void ArousalMonitor::tick()
     }
 
     previousPressure = pressure;
-
-    give();
 }

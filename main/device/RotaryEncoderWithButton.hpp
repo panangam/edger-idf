@@ -34,8 +34,8 @@ public:
     Rotary rotary;
     Button button;
 
-    std::atomic<int16_t> tempEncDiff;
-    lv_indev_state_t tempButtonState;
+    std::atomic_int16_t tempEncDiff = 0;
+    lv_indev_state_t tempButtonState = LV_INDEV_STATE_RELEASED;
 };
 
 void handleEventQueue(RotaryEncoderWithButtonIndev& encoder);

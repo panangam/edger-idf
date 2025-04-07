@@ -1258,9 +1258,9 @@
                 {
                   "objID": "90960cb9-2803-47d9-f837-3cb3f98f8878",
                   "type": "LVGLLabelWidget",
-                  "left": 96,
+                  "left": 66,
                   "top": 2,
-                  "width": 30,
+                  "width": 60,
                   "height": 11,
                   "customInputs": [],
                   "customOutputs": [],
@@ -1494,9 +1494,9 @@
                 {
                   "objID": "9503f1e2-78f1-4620-f715-ff1a76a70127",
                   "type": "LVGLLabelWidget",
-                  "left": 96,
+                  "left": 66,
                   "top": 2,
-                  "width": 30,
+                  "width": 60,
                   "height": 11,
                   "customInputs": [],
                   "customOutputs": [],

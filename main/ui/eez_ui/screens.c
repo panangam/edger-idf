@@ -356,8 +356,8 @@ void create_screen_page_graph_arousal() {
                     // label_chart_value_arousal
                     lv_obj_t *obj = lv_label_create(parent_obj);
                     objects.label_chart_value_arousal = obj;
-                    lv_obj_set_pos(obj, 96, 2);
-                    lv_obj_set_size(obj, 30, LV_SIZE_CONTENT);
+                    lv_obj_set_pos(obj, 66, 2);
+                    lv_obj_set_size(obj, 60, LV_SIZE_CONTENT);
                     lv_obj_set_style_text_align(obj, LV_TEXT_ALIGN_RIGHT, LV_PART_MAIN | LV_STATE_DEFAULT);
                     lv_label_set_text(obj, "00000");
                 }
@@ -415,8 +415,8 @@ void create_screen_page_graph_pressure() {
                     // label_chart_value_pressure
                     lv_obj_t *obj = lv_label_create(parent_obj);
                     objects.label_chart_value_pressure = obj;
-                    lv_obj_set_pos(obj, 96, 2);
-                    lv_obj_set_size(obj, 30, LV_SIZE_CONTENT);
+                    lv_obj_set_pos(obj, 66, 2);
+                    lv_obj_set_size(obj, 60, LV_SIZE_CONTENT);
                     lv_obj_set_style_text_align(obj, LV_TEXT_ALIGN_RIGHT, LV_PART_MAIN | LV_STATE_DEFAULT);
                     lv_label_set_text(obj, "00000");
                 }

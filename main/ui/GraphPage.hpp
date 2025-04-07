@@ -1,6 +1,9 @@
 #pragma once
 
 #include <cmath>
+#include <sstream>
+#include <string>
+#include <iomanip>
 
 #include "lvgl.h"
 #include "esp_lvgl_port.h"
@@ -33,3 +36,10 @@ public:
     lv_chart_series_t* series;
     int32_t rangeMin, rangeMax;
 };
+
+inline std::string floatToString(float value, int decimalPlaces)
+{
+    std::ostringstream out;
+    out << std::fixed << std::setprecision(decimalPlaces) << value;
+    return out.str();
+}

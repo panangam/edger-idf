@@ -62,7 +62,7 @@ void GraphPage::lvAddPoint(float val)
     lv_chart_set_next_value(chart, series, val*GRAPH_SCALE_MULTIPLIER);
     lvAutoScaleChart();
     lv_chart_refresh(chart);
-    lv_label_set_text(valLabel, std::to_string(static_cast<int32_t>(val)).c_str());
+    lv_label_set_text(valLabel, floatToString(val, 2).c_str());
 }
 
 void GraphPage::lvLoadPage()

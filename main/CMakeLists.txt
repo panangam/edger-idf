@@ -7,7 +7,7 @@ idf_component_register(
         "device/Button.cpp"
         "ui/tamzen_12.c"
         "ui/view.cpp"
-        "ui/page_change.cpp"
+        "ui/actions.cpp"
         "ui/GraphPage.cpp"
         "ui/eez_ui/screens.c"
         "ui/eez_ui/styles.c"

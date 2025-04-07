@@ -26,7 +26,7 @@
 #include "ui/PressurePage.hpp"
 #include "ui/DashboardPage.hpp"
 #include "ui/SettingsPage.hpp"
-#include "ui/page_change.hpp"
+#include "ui/PagesManager.hpp"
 
 #include "ui/eez_ui/ui.h"
 

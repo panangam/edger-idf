@@ -5,7 +5,7 @@
 #include "eez_ui/actions.h"
 #include "eez_ui/ui.h"
 
-#include "page_change.hpp"
+#include "PagesManager.hpp"
 
 void action_change_page(lv_event_t * e)
 {
@@ -20,6 +20,7 @@ void action_change_page(lv_event_t * e)
         else if (key == LV_KEY_RIGHT) page_offset = 1;
         else return;
         
+        if (global_pages_manager == nullptr) return;
         global_pages_manager->changePage(page_offset);
     }
 }

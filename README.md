@@ -1,3 +1,3 @@
 # Edger using ESP-IDF
 
-- Class methods won't deal with semaphores or locks (e.g. `xSemaphoreTake`, `lvgl_port_lock`), EXCEPT for `.tick()`. Will treat `.tick()` like a high level app code. 
+- Class methods that call lvgl code (and thus must be guarded with lvglMutex) are prefixed with "lv", e.g. "lvLoadPage".

@@ -2,6 +2,8 @@
 
 #include "lvgl.h"
 
+#define LV_OBJ_FLAG_SPINBOX_PERCENT LV_OBJ_FLAG_USER_1
+
 class Page
 {
 public:

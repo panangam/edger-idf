@@ -97,7 +97,7 @@ void create_screen_page_home() {
                 }
                 {
                     lv_obj_t *obj = lv_label_create(parent_obj);
-                    lv_obj_set_pos(obj, 54, 2);
+                    lv_obj_set_pos(obj, 55, 2);
                     lv_obj_set_size(obj, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
                     lv_label_set_text(obj, "(Denied:   )");
                 }
@@ -105,8 +105,9 @@ void create_screen_page_home() {
                     // label_num_denied
                     lv_obj_t *obj = lv_label_create(parent_obj);
                     objects.label_num_denied = obj;
-                    lv_obj_set_pos(obj, 102, 2);
+                    lv_obj_set_pos(obj, 104, 2);
                     lv_obj_set_size(obj, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
+                    lv_obj_set_style_text_align(obj, LV_TEXT_ALIGN_RIGHT, LV_PART_MAIN | LV_STATE_DEFAULT);
                     lv_label_set_text(obj, "000");
                 }
             }

@@ -26,7 +26,10 @@ public:
 
     void changePage(int pageOffset) {
         curPageNum = (curPageNum + pages.size() + pageOffset) % pages.size();
-        pages[curPageNum]->loadPage();
+        {
+            std::scoped_lock lock(lvgl_mutex);
+            pages[curPageNum]->loadPage();
+        }
         ESP_LOGI("page_change", "Page is changed to number %d", curPageNum);
     }
 

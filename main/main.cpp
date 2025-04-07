@@ -223,10 +223,14 @@ static void renderTaskFuncEEZ(void* appStatePtr)
         .name = "tickTimer"
     };
     esp_timer_create(&timerArgs, &tickTimer);
-    // tick page at 30Hz
-    esp_timer_start_periodic(tickTimer, 1000000 / 30);
+    // tick page at 60Hz
+    // esp_timer_start_periodic(tickTimer, 1000000 / 60);
 
-    for (;;) { vTaskDelay(portMAX_DELAY); }
+    for (;;) { 
+        pages.tick();
+        // vTaskDelay(portMAX_DELAY); 
+        vTaskDelay(1);
+    }
 }
 
 void arousalTaskFunc(void* appStatePtr)
@@ -236,11 +240,25 @@ void arousalTaskFunc(void* appStatePtr)
 
     ESP_LOGI("arousalTaskFunc", "starting arousal monitor loop");
 
+    esp_timer_handle_t arousalTimer;
+    esp_timer_create_args_t timerArgs = {
+        .callback = [](void* arg) {
+            auto arousalMonitorPtr = reinterpret_cast<ArousalMonitor*>(arg);
+            arousalMonitorPtr->tick();
+        },
+        .arg = &arousalMonitor,
+        .name = "arousalTimer"
+    };
+    esp_timer_create(&timerArgs, &arousalTimer);
+    // esp_timer_start_periodic(arousalTimer, 1000000 / 100);
+
     for (;;)
     {
         arousalMonitor.tick();
         // printf(">pressure:%f\n", arousalMonitor.getPressure());
         // printf(">arousal:%f\n", arousalMonitor.getArousal());
+        // vTaskDelay(portMAX_DELAY);'
+        vTaskDelay(1);
     }
 }
 

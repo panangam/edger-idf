@@ -12,6 +12,8 @@
 #define GRAPH_AUTOSCALE INT32_MAX
 #define GRAPH_POINTS_COUNT 127
 
+void set_style_my_chart(lv_obj_t* chart);
+
 class GraphPageEEZ : public Page
 {
 public:

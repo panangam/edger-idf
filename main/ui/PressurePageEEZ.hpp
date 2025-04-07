@@ -8,8 +8,8 @@ public:
     PressurePageEEZ(ArousalMonitor& arousalMonitor) 
       : GraphPageEEZ{
             objects.page_graph_pressure,
-            objects.label_chart_value_arousal,
-            objects.chart_arousal,
+            objects.label_chart_value_pressure,
+            objects.chart_pressure,
             GRAPH_AUTOSCALE, 
             GRAPH_AUTOSCALE,
         }, 

@@ -12,8 +12,8 @@ public:
     ArousalPageEEZ(ArousalMonitor& arousalMonitor)
       : GraphPageEEZ(
             objects.page_graph_arousal,
-            objects.label_chart_value_pressure,
-            objects.chart_pressure,
+            objects.label_chart_value_arousal,
+            objects.chart_arousal,
             0, 
             300
         ), 
@@ -25,6 +25,7 @@ public:
             std::scoped_lock lock(lvgl_mutex);
             addPoint(std::round(newVal));
         }
+        ESP_LOGI("ArousalPage", "arousal: %f", newVal);
     };
 
     ArousalMonitor& arousalMonitor;

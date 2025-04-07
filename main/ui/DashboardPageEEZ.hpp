@@ -20,7 +20,7 @@ public:
     ) : Page{objects.page_home},
         arousalMonitor(arousalMonitor), 
         edgingController(edgingController) 
-        {};
+    {};
     void tick() override
     {
         uint32_t numDenied = edgingController.numDenied;

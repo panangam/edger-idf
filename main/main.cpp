@@ -27,6 +27,7 @@
 #include "ui/ArousalPageEEZ.hpp"
 #include "ui/PressurePageEEZ.hpp"
 #include "ui/DashboardPageEEZ.hpp"
+#include "ui/page_change.hpp"
 
 #include "ui/eez_ui/ui.h"
 
@@ -198,12 +199,16 @@ static void renderTaskFuncEEZ(void* appStatePtr)
         std::scoped_lock lock(lvgl_mutex);
         ui_init();
     }
+    PagesManager pages{
+        appState.arousalMonitor, 
+        appState.edgingController
+    };
+    global_pages_manager = &pages;
     RotaryEncoderWithButtonIndev encoder (PIN_ROTARY_CLK, PIN_ROTARY_DT, PIN_ROTARY_SW, 0);
     {
         std::scoped_lock lock(lvgl_mutex);
         lv_group_set_wrap(groups.group_encoder, false);
         lv_indev_set_group(encoder.indevPtr, groups.group_encoder);
-        lv_screen_load(objects.page_settings);
     }
 
     for (;;) { vTaskDelay(portMAX_DELAY); }

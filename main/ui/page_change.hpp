@@ -2,20 +2,46 @@
 
 #include <array>
 
-#include "PageConcept.hpp"
+#include "Page.hpp"
 #include "ArousalPageEEZ.hpp"
 #include "PressurePageEEZ.hpp"
 #include "DashboardPageEEZ.hpp"
 #include "SettingsPageEEZ.hpp"
 
-inline std::array<PageConcept, 4> pages;
+class PagesManager
+{
+public:
+    PagesManager(
+        ArousalMonitor& arousalMonitor, 
+        EdgingController& edgingController
+    ) : dashboardPage{arousalMonitor, edgingController},
+        arousalPage{arousalMonitor},
+        pressurePage{arousalMonitor},
+        settingsPage{edgingController}
+    {};
 
-inline void initPages(
-    ArousalMonitor& arousalMonitor, 
-    EdgingController& edgingController
-) {
-    pages[0] = DashboardPageEEZ{arousalMonitor, edgingController};
-    pages[1] = ArousalPageEEZ{arousalMonitor};
-    pages[2] = PressurePageEEZ{arousalMonitor};
-    pages[3] = SettingsPageEEZ{edgingController};
-}
+    void tick() {
+        pages[curPageNum]->tick();
+    }
+
+    void changePage(int pageOffset) {
+        curPageNum = (curPageNum + pages.size() + pageOffset) % pages.size();
+        pages[curPageNum]->loadPage();
+        ESP_LOGI("page_change", "Page is changed to number %d", curPageNum);
+    }
+
+    DashboardPageEEZ dashboardPage;
+    ArousalPageEEZ arousalPage;
+    PressurePageEEZ pressurePage;
+    SettingsPageEEZ settingsPage;
+    std::array<Page*, 4> pages{
+        &dashboardPage,
+        &arousalPage,
+        &pressurePage,
+        &settingsPage
+    };
+
+    size_t curPageNum = 0;
+};
+
+inline PagesManager* global_pages_manager = nullptr;

@@ -5,9 +5,7 @@
 #include "eez_ui/actions.h"
 #include "eez_ui/ui.h"
 
-#define TAG "page_change.cpp"
-
-#define NUM_PAGES 2  // must manually edit to match number of pages in rotation
+#include "page_change.hpp"
 
 void action_change_page(lv_event_t * e)
 {
@@ -22,9 +20,6 @@ void action_change_page(lv_event_t * e)
         else if (key == LV_KEY_RIGHT) page_offset = 1;
         else return;
         
-        size_t cur_page_id = (size_t) lv_event_get_user_data(e);
-        size_t new_page_id = ((cur_page_id + page_offset) % NUM_PAGES + NUM_PAGES) % NUM_PAGES;
-        lv_obj_t* screen = ((lv_obj_t **)&objects)[new_page_id];
-        lv_screen_load(screen);
+        global_pages_manager->changePage(page_offset);
     }
 }

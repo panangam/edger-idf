@@ -13,7 +13,7 @@ GraphPageEEZ::GraphPageEEZ(
     lv_obj_t* chart,
     int32_t rangeMin, 
     int32_t rangeMax
-) : screen(screen), valLabel(valLabel), chart(chart), rangeMin(rangeMin), rangeMax(rangeMax)
+) : Page{screen}, valLabel(valLabel), chart(chart), rangeMin(rangeMin), rangeMax(rangeMax)
 {
     if (rangeMin == GRAPH_AUTOSCALE) rangeMin = INT32_MAX;
     if (rangeMax == GRAPH_AUTOSCALE) rangeMax = INT32_MIN;
@@ -52,10 +52,11 @@ void GraphPageEEZ::addPoint(int32_t val)
     lv_label_set_text(valLabel, std::to_string(val).c_str());
 }
 
-void GraphPageEEZ::setActive()
+void GraphPageEEZ::loadPage()
 {
-    // for (size_t i = 0; i < pointCount; i++)
-    // {
-    //     lv_chart_set_next_value(chart, series, LV_CHART_POINT_NONE);
-    // }
+    for (size_t i = 0; i < GRAPH_POINTS_COUNT; i++)
+    {
+        lv_chart_set_next_value(chart, series, LV_CHART_POINT_NONE);
+    }
+    Page::loadPage();
 }

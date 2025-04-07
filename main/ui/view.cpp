@@ -11,6 +11,8 @@
 
 #include "view.hpp"
 
+#define TAG "view.cpp"
+
 std::pair<esp_lcd_panel_io_handle_t, esp_lcd_panel_handle_t> initOLED(i2c_master_bus_handle_t i2c_bus)
 {
     ESP_LOGI(TAG, "Install panel IO");

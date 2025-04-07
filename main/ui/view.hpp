@@ -5,7 +5,6 @@
 #include "esp_lcd_io_i2c.h"
 #include "lvgl.h"
 
-#define TAG "view"
 #define SSD1306_I2C_ADDR 0x3C
 #define SSD1306_I2C_HZ (400 * 1000)
 #define OLED_H_RES 128

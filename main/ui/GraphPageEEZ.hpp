@@ -10,22 +10,22 @@
 #include "view.hpp"
 
 #define GRAPH_AUTOSCALE INT32_MAX
+#define GRAPH_POINTS_COUNT 127
 
-class GraphPageEEZ 
+class GraphPageEEZ : public Page
 {
 public:
     GraphPageEEZ(
         lv_obj_t* screen,
         lv_obj_t* valLabel, 
         lv_obj_t* chart,
-        int32_t rangeMin, 
+        int32_t rangeMin,
         int32_t rangeMax
     );
+    void loadPage() override;
     void autoScaleChart();
     void addPoint(int32_t val);
-    void setActive();
 
-    lv_obj_t* screen;
     lv_obj_t* valLabel;
     lv_obj_t* chart;
     lv_chart_series_t* series;

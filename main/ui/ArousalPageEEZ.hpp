@@ -27,9 +27,5 @@ public:
         }
     };
 
-    void loadPage() {
-        // load page
-    }
-
     ArousalMonitor& arousalMonitor;
 };

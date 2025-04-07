@@ -8,12 +8,13 @@ idf_component_register(
         "ui/tamzen_12.c"
         "ui/view.cpp"
         "ui/page_change.cpp"
-        "ui/GraphPage.cpp"
         "ui/GraphPageEEZ.cpp"
         "ui/eez_ui/screens.c"
         "ui/eez_ui/styles.c"
         "ui/eez_ui/ui_font_tamzen_12.c"
         "ui/eez_ui/ui.c"
+        "EdgingController.cpp"
+        "MotorController.cpp"
     INCLUDE_DIRS
         "."
 )

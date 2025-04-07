@@ -12,7 +12,7 @@
 #define GRAPH_AUTOSCALE INT32_MAX
 #define GRAPH_POINTS_COUNT 127
 
-void set_style_my_chart(lv_obj_t* chart);
+void lvSetStyleMyChart(lv_obj_t* chart);
 
 class GraphPage : public Page
 {
@@ -24,9 +24,9 @@ public:
         int32_t rangeMin,
         int32_t rangeMax
     );
-    void loadPage() override;
-    void autoScaleChart();
-    void addPoint(float val);
+    void lvLoadPage() override;
+    void lvAutoScaleChart();
+    void lvAddPoint(float val);
 
     lv_obj_t* valLabel;
     lv_obj_t* chart;

@@ -15,11 +15,11 @@ public:
         }, 
         arousalMonitor(arousalMonitor) {};
 
-    void tick() {
+    void tick() override {
         float newVal = arousalMonitor.getPressure();
         {
             std::scoped_lock lock(lvgl_mutex);
-            addPoint(newVal);
+            lvAddPoint(newVal);
         }
     };
 

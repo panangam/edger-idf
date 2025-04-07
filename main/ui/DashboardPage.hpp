@@ -43,14 +43,14 @@ public:
             // lv_label_set_text_fmt(labelNumMaxSpeed, "%ld%%", static_cast<int32_t>(maxSpeed*100));
         });
     };
-    void loadPage() override
+    void lvLoadPage() override
     {
         {
             std::scoped_lock lock(lvgl_mutex);
             lv_spinbox_set_value(spinboxMaxArousal, static_cast<int32_t>(edgingController.settings.edgeArousal));
             lv_spinbox_set_value(spinboxMaxMotor, static_cast<int32_t>(edgingController.settings.motorSpeedMax * 100));
         }
-        Page::loadPage();
+        Page::lvLoadPage();
     }
 
     static constexpr uint32_t BAR_RANGE = 50;

@@ -8,7 +8,7 @@
 
 #define GRAPH_SCALE_MULTIPLIER 1000
 
-void set_style_my_chart(lv_obj_t* chart)
+void lvSetStyleMyChart(lv_obj_t* chart)
 {
     lv_chart_set_type(chart, LV_CHART_TYPE_LINE);
     lv_chart_set_div_line_count(chart, 0, 0);
@@ -35,12 +35,12 @@ GraphPage::GraphPage(
 
     {
         std::scoped_lock lock(lvgl_mutex);
-        set_style_my_chart(chart);
+        lvSetStyleMyChart(chart);
         series = lv_chart_add_series(chart, FG, LV_CHART_AXIS_PRIMARY_Y);
     }
 }
 
-void GraphPage::autoScaleChart()
+void GraphPage::lvAutoScaleChart()
 {
     int32_t* seriesVals = lv_chart_get_y_array(chart, series);
     int32_t min = seriesVals[0], max = seriesVals[0];
@@ -59,16 +59,16 @@ void GraphPage::autoScaleChart()
     );
 }
 
-void GraphPage::addPoint(float val)
+void GraphPage::lvAddPoint(float val)
 {
     lv_chart_set_next_value(chart, series, val*GRAPH_SCALE_MULTIPLIER);
-    autoScaleChart();
+    lvAutoScaleChart();
     lv_chart_refresh(chart);
     lv_label_set_text(valLabel, std::to_string(static_cast<int32_t>(val)).c_str());
 }
 
-void GraphPage::loadPage()
+void GraphPage::lvLoadPage()
 {
     lv_chart_set_all_value(chart, series, LV_CHART_POINT_NONE);
-    Page::loadPage();
+    Page::lvLoadPage();
 }

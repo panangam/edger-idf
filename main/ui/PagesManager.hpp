@@ -28,7 +28,7 @@ public:
         curPageNum = (curPageNum + pages.size() + pageOffset) % pages.size();
         {
             std::scoped_lock lock(lvgl_mutex);
-            pages[curPageNum]->loadPage();
+            pages[curPageNum]->lvLoadPage();
         }
         ESP_LOGI("page_change", "Page is changed to number %d", curPageNum);
     }

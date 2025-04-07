@@ -34,7 +34,7 @@ GraphPage::GraphPage(
     else rangeMax = rangeMax * GRAPH_SCALE_MULTIPLIER;
 
     {
-        std::scoped_lock lock(lvgl_mutex);
+        std::scoped_lock lock(lvglMutex);
         lvSetStyleMyChart(chart);
         series = lv_chart_add_series(chart, FG, LV_CHART_AXIS_PRIMARY_Y);
     }

@@ -22,7 +22,7 @@ public:
     void tick() override {
         float newVal = arousalMonitor.getArousal();
         {
-            std::scoped_lock lock(lvgl_mutex);
+            std::scoped_lock lock(lvglMutex);
             lvAddPoint(newVal);
         }
         // ESP_LOGI("ArousalPage", "arousal: %f", newVal);

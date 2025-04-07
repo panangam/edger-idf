@@ -48,7 +48,7 @@ RotaryEncoderWithButtonIndev::RotaryEncoderWithButtonIndev(
 ) : rotary(pinClk, pinDt, 0), button(pinSw, false, 200) {
     // create lvgl indev
     {
-        std::scoped_lock lock(lvgl_mutex);
+        std::scoped_lock lock(lvglMutex);
         indevPtr = lv_indev_create();
         lv_indev_set_type(indevPtr, LV_INDEV_TYPE_ENCODER);
         // lv_indev_set_mode(indevPtr, LV_INDEV_MODE_EVENT);

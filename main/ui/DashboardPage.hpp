@@ -46,7 +46,7 @@ public:
     void lvLoadPage() override
     {
         {
-            std::scoped_lock lock(lvgl_mutex);
+            std::scoped_lock lock(lvglMutex);
             lv_spinbox_set_value(spinboxMaxArousal, static_cast<int32_t>(edgingController.settings.edgeArousal));
             lv_spinbox_set_value(spinboxMaxMotor, static_cast<int32_t>(edgingController.settings.motorSpeedMax * 100));
         }

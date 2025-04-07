@@ -40,4 +40,4 @@ struct LVGLMutex
     inline void lock() { lvgl_port_lock(portMAX_DELAY); };
     inline void unlock() { lvgl_port_unlock(); };
 };
-inline LVGLMutex lvgl_mutex;
+inline LVGLMutex lvglMutex;

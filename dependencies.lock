@@ -49,16 +49,6 @@ dependencies:
       registry_url: https://components.espressif.com
       type: service
     version: 1.1.1
-  espressif/esp-idf-cxx:
-    component_hash: 2fa63e4e725f0c2d3dd6d99da8a91d404b4b49667088b1be0f336eb9c13ff17f
-    dependencies:
-    - name: idf
-      require: private
-      version: '>=5.0'
-    source:
-      registry_url: https://components.espressif.com/
-      type: service
-    version: 1.0.2-beta
   espressif/esp_lvgl_port:
     component_hash: bb938deffba7d80b2ce582a796c053681b0439e0a7033666688e0f1f5b921125
     dependencies:
@@ -106,11 +96,10 @@ direct_dependencies:
 - esp_idf_lib_helpers
 - espressif/bdc_motor
 - espressif/button
-- espressif/esp-idf-cxx
 - espressif/esp_lvgl_port
 - espressif/led_strip
 - i2cdev
 - idf
-manifest_hash: 402b9e3057b9a71e42cb5c69f51acbab180e988f66b73b2597f1577223be1831
+manifest_hash: a754b572c3ebd3624b81d704a8fd5280802f783d1c9c094c724253509147b583
 target: esp32c6
 version: 2.0.0

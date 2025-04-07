@@ -223,7 +223,7 @@
                 {
                   "objID": "71e0a84d-09a9-4d92-939f-58f4dbd15776",
                   "type": "LVGLLabelWidget",
-                  "left": 54,
+                  "left": 55,
                   "top": 2,
                   "width": 72,
                   "height": 11,
@@ -265,7 +265,7 @@
                 {
                   "objID": "bfed41f9-a584-4504-80f5-63edbe7eb665",
                   "type": "LVGLLabelWidget",
-                  "left": 102,
+                  "left": 104,
                   "top": 2,
                   "width": 18,
                   "height": 11,
@@ -296,7 +296,14 @@
                   "disabledStateType": "literal",
                   "states": "",
                   "localStyles": {
-                    "objID": "d895455f-9811-4b12-ceae-bdd8739ed101"
+                    "objID": "d895455f-9811-4b12-ceae-bdd8739ed101",
+                    "definition": {
+                      "MAIN": {
+                        "DEFAULT": {
+                          "text_align": "RIGHT"
+                        }
+                      }
+                    }
                   },
                   "group": "",
                   "groupIndex": 0,

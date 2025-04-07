@@ -28,5 +28,4 @@ dependencies:
     git: https://github.com/UncleRus/esp-idf-lib/
     path: components/esp_idf_lib_helpers
 
-  espressif/esp-idf-cxx: ^1.0.2-beta
   espressif/bdc_motor: ^0.1.0

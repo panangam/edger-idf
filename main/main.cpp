@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <array>
+#include <chrono>
 
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
@@ -9,6 +10,7 @@
 #include "iot_button.h"
 #include "button_gpio.h"
 #include "esp_lvgl_port.h"
+#include "esp_timer.h"
 
 #include "macroUtil.hpp"
 #include "device/Rotary.hpp"
@@ -210,6 +212,19 @@ static void renderTaskFuncEEZ(void* appStatePtr)
         lv_group_set_wrap(groups.group_encoder, false);
         lv_indev_set_group(encoder.indevPtr, groups.group_encoder);
     }
+    
+    esp_timer_handle_t tickTimer;
+    esp_timer_create_args_t timerArgs = {
+        .callback = [](void* arg) {
+            auto pagesPtr = reinterpret_cast<PagesManager*>(arg);
+            pagesPtr->tick();
+        },
+        .arg = global_pages_manager,
+        .name = "tickTimer"
+    };
+    esp_timer_create(&timerArgs, &tickTimer);
+    // tick page at 30Hz
+    esp_timer_start_periodic(tickTimer, 1000000 / 30);
 
     for (;;) { vTaskDelay(portMAX_DELAY); }
 }

@@ -27,11 +27,8 @@ GraphPage::GraphPage(
     int32_t rangeMax
 ) : Page{screen}, valLabel(valLabel), chart(chart), rangeMin(rangeMin), rangeMax(rangeMax)
 {
-    if (rangeMin == GRAPH_AUTOSCALE) rangeMin = INT32_MAX;
-    else rangeMin = rangeMin * GRAPH_SCALE_MULTIPLIER;
-
-    if (rangeMax == GRAPH_AUTOSCALE) rangeMax = INT32_MIN;
-    else rangeMax = rangeMax * GRAPH_SCALE_MULTIPLIER;
+    if (rangeMin != GRAPH_AUTOSCALE) rangeMin = rangeMin * GRAPH_SCALE_MULTIPLIER;
+    if (rangeMax != GRAPH_AUTOSCALE) rangeMax = rangeMax * GRAPH_SCALE_MULTIPLIER;
 
     std::scoped_lock lock(lvglMutex);
     lvSetStyleMyChart(chart);
@@ -53,7 +50,7 @@ void GraphPage::lvAutoScaleChart()
         chart, 
         LV_CHART_AXIS_PRIMARY_Y, 
         rangeMin == GRAPH_AUTOSCALE ? min : std::min(min, rangeMin), 
-        rangeMin == GRAPH_AUTOSCALE ? max : std::max(max, rangeMax)
+        rangeMax == GRAPH_AUTOSCALE ? max : std::max(max, rangeMax)
     );
 }
 

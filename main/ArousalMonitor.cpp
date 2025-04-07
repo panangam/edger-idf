@@ -30,6 +30,7 @@ void ArousalMonitor::tick()
         float peakSize = pressure - peakStart;
         if (peakSize >= sensitivityThreshold && peakSize < 2000)  // reject big spikes
         {
+            std::scoped_lock lock(arousalMutex);
             arousal += pressure - peakStart;
         }
         peakStart = pressure;

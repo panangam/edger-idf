@@ -1,7 +1,7 @@
 #pragma once
 
 #include <numeric>
-#include <atomic>
+#include <mutex>
 
 #include "freertos/FreeRTOS.h"
 #include "freertos/semphr.h"
@@ -27,7 +27,10 @@ public:
         esp_timer_create_args_t timerArgs{
             .callback = [](void* arg) {
                 auto arousalMonitor = reinterpret_cast<ArousalMonitor*>(arg);
-                arousalMonitor->arousal = arousalMonitor->arousal * arousalMonitor->arousalDecayRate;
+                {
+                    std::scoped_lock lock(arousalMonitor->arousalMutex);
+                    arousalMonitor->arousal *= arousalMonitor->arousalDecayRate;
+                }
             },
             .arg = this,
             .name = "arousalDecayTimer"
@@ -45,7 +48,8 @@ public:
 
 private:
     ADS1115 adc;
-    std::atomic<float> arousal = 0;
+    float arousal = 0;
+    std::mutex arousalMutex;
     RingBuffer<float> pressureQueue;
     float arousalDecayRate;
     float sensitivityThreshold;

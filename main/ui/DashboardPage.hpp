@@ -30,7 +30,8 @@ public:
 
         // ESP_LOGI(TAG, "speed %.2f", speed);
 
-        withLVGL([&]() {
+        {
+            std::scoped_lock lock(lvglMutex);
             lv_label_set_text_fmt(labelNumDenied, "%lu", numDenied);
             
             lv_bar_set_value(barArousal, static_cast<int32_t>(arousal / maxArousal * BAR_RANGE), LV_ANIM_OFF);
@@ -41,15 +42,12 @@ public:
 
             // lv_label_set_text_fmt(labelNumMaxArousal, "%ld", static_cast<int32_t>(maxArousal));
             // lv_label_set_text_fmt(labelNumMaxSpeed, "%ld%%", static_cast<int32_t>(maxSpeed*100));
-        });
+        }
     };
     void lvLoadPage() override
     {
-        {
-            std::scoped_lock lock(lvglMutex);
-            lv_spinbox_set_value(spinboxMaxArousal, static_cast<int32_t>(edgingController.settings.edgeArousal));
-            lv_spinbox_set_value(spinboxMaxMotor, static_cast<int32_t>(edgingController.settings.motorSpeedMax * 100));
-        }
+        lv_spinbox_set_value(spinboxMaxArousal, static_cast<int32_t>(edgingController.settings.edgeArousal));
+        lv_spinbox_set_value(spinboxMaxMotor, static_cast<int32_t>(edgingController.settings.motorSpeedMax * 100));
         Page::lvLoadPage();
     }
 

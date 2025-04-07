@@ -69,9 +69,6 @@ void GraphPageEEZ::addPoint(float val)
 
 void GraphPageEEZ::loadPage()
 {
+    lv_chart_set_all_value(chart, series, LV_CHART_POINT_NONE);
     Page::loadPage();
-    for (size_t i = 0; i < GRAPH_POINTS_COUNT; i++)
-    {
-        lv_chart_set_next_value(chart, series, LV_CHART_POINT_NONE);
-    }
 }

@@ -22,13 +22,10 @@
 #include "EdgingController.hpp"
 
 #include "ui/view.hpp"
-// #include "ui/ArousalPage.hpp"
-// #include "ui/PressurePage.hpp"
-// #include "ui/DashboardPage.hpp"
-
-#include "ui/ArousalPageEEZ.hpp"
-#include "ui/PressurePageEEZ.hpp"
-#include "ui/DashboardPageEEZ.hpp"
+#include "ui/ArousalPage.hpp"
+#include "ui/PressurePage.hpp"
+#include "ui/DashboardPage.hpp"
+#include "ui/SettingsPage.hpp"
 #include "ui/page_change.hpp"
 
 #include "ui/eez_ui/ui.h"

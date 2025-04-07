@@ -8,13 +8,12 @@
 #include "view.hpp"
 #include "macroUtil.hpp"
 #include "Page.hpp"
-#include "ArousalMonitor.hpp"
-#include "EdgingController.hpp"
+#include "../EdgingController.hpp"
 
-class SettingsPageEEZ : public Page
+class SettingsPage : public Page
 {
 public:
-    SettingsPageEEZ(EdgingController& edgingController)
+    SettingsPage(EdgingController& edgingController)
       : Page{objects.page_settings}, edgingController(edgingController) {};
     // void tick() override { ESP_LOGI("SettingsPage", "tick"); };
 

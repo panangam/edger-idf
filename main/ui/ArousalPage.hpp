@@ -4,13 +4,13 @@
 
 #include "eez_ui/screens.h"
 
-#include "GraphPageEEZ.hpp"
+#include "GraphPage.hpp"
 
-class ArousalPageEEZ : public GraphPageEEZ
+class ArousalPage : public GraphPage
 {
 public:
-    ArousalPageEEZ(ArousalMonitor& arousalMonitor)
-      : GraphPageEEZ(
+    ArousalPage(ArousalMonitor& arousalMonitor)
+      : GraphPage(
             objects.page_graph_arousal,
             objects.label_chart_value_arousal,
             objects.chart_arousal,

@@ -3,10 +3,10 @@
 #include <array>
 
 #include "Page.hpp"
-#include "ArousalPageEEZ.hpp"
-#include "PressurePageEEZ.hpp"
-#include "DashboardPageEEZ.hpp"
-#include "SettingsPageEEZ.hpp"
+#include "ArousalPage.hpp"
+#include "PressurePage.hpp"
+#include "DashboardPage.hpp"
+#include "SettingsPage.hpp"
 
 class PagesManager
 {
@@ -33,10 +33,10 @@ public:
         ESP_LOGI("page_change", "Page is changed to number %d", curPageNum);
     }
 
-    DashboardPageEEZ dashboardPage;
-    ArousalPageEEZ arousalPage;
-    PressurePageEEZ pressurePage;
-    SettingsPageEEZ settingsPage;
+    DashboardPage dashboardPage;
+    ArousalPage arousalPage;
+    PressurePage pressurePage;
+    SettingsPage settingsPage;
     std::array<Page*, 4> pages{
         &dashboardPage,
         &arousalPage,

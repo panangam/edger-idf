@@ -8,7 +8,7 @@ idf_component_register(
         "ui/tamzen_12.c"
         "ui/view.cpp"
         "ui/page_change.cpp"
-        "ui/GraphPageEEZ.cpp"
+        "ui/GraphPage.cpp"
         "ui/eez_ui/screens.c"
         "ui/eez_ui/styles.c"
         "ui/eez_ui/ui_font_tamzen_12.c"

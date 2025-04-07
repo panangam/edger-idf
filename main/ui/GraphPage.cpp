@@ -4,7 +4,7 @@
 #include "lvgl.h"
 
 #include "macroUtil.hpp"
-#include "GraphPageEEZ.hpp"
+#include "GraphPage.hpp"
 
 #define GRAPH_SCALE_MULTIPLIER 1000
 
@@ -19,7 +19,7 @@ void set_style_my_chart(lv_obj_t* chart)
     lv_obj_set_style_line_width(chart, 1, LV_PART_ITEMS);
 }
 
-GraphPageEEZ::GraphPageEEZ(
+GraphPage::GraphPage(
     lv_obj_t* screen, 
     lv_obj_t* valLabel, 
     lv_obj_t* chart,
@@ -40,7 +40,7 @@ GraphPageEEZ::GraphPageEEZ(
     }
 }
 
-void GraphPageEEZ::autoScaleChart()
+void GraphPage::autoScaleChart()
 {
     int32_t* seriesVals = lv_chart_get_y_array(chart, series);
     int32_t min = seriesVals[0], max = seriesVals[0];
@@ -59,7 +59,7 @@ void GraphPageEEZ::autoScaleChart()
     );
 }
 
-void GraphPageEEZ::addPoint(float val)
+void GraphPage::addPoint(float val)
 {
     lv_chart_set_next_value(chart, series, val*GRAPH_SCALE_MULTIPLIER);
     autoScaleChart();
@@ -67,7 +67,7 @@ void GraphPageEEZ::addPoint(float val)
     lv_label_set_text(valLabel, std::to_string(static_cast<int32_t>(val)).c_str());
 }
 
-void GraphPageEEZ::loadPage()
+void GraphPage::loadPage()
 {
     lv_chart_set_all_value(chart, series, LV_CHART_POINT_NONE);
     Page::loadPage();

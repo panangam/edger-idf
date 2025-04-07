@@ -11,10 +11,10 @@
 #include "ArousalMonitor.hpp"
 #include "EdgingController.hpp"
 
-class DashboardPageEEZ : public Page
+class DashboardPage : public Page
 {
 public:
-    DashboardPageEEZ(
+    DashboardPage(
         ArousalMonitor& arousalMonitor,
         EdgingController& edgingController
     ) : Page{objects.page_home},

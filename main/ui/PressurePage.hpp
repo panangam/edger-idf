@@ -1,12 +1,12 @@
 #pragma once
 
-#include "GraphPageEEZ.hpp"
+#include "GraphPage.hpp"
 
-class PressurePageEEZ : public GraphPageEEZ
+class PressurePage : public GraphPage
 {
 public:
-    PressurePageEEZ(ArousalMonitor& arousalMonitor) 
-      : GraphPageEEZ{
+    PressurePage(ArousalMonitor& arousalMonitor) 
+      : GraphPage{
             objects.page_graph_pressure,
             objects.label_chart_value_pressure,
             objects.chart_pressure,

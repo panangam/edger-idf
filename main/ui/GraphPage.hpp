@@ -14,10 +14,10 @@
 
 void set_style_my_chart(lv_obj_t* chart);
 
-class GraphPageEEZ : public Page
+class GraphPage : public Page
 {
 public:
-    GraphPageEEZ(
+    GraphPage(
         lv_obj_t* screen,
         lv_obj_t* valLabel, 
         lv_obj_t* chart,

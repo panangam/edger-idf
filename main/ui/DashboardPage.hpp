@@ -1,6 +1,6 @@
 #pragma once
 
-#include <map>
+#include <vector>
 
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
@@ -36,7 +36,7 @@ public:
             }, LV_EVENT_SCREEN_LOAD_START, this);
 
             // update params when spinbox value changes
-            for (const auto [obj, param] : spinboxToParam)
+            for (const auto& [obj, param] : spinboxToParam)
             {
                 lv_obj_add_event_cb(obj, [](lv_event_t* e) {
                     auto param = reinterpret_cast<float*>(lv_event_get_user_data(e));
@@ -75,7 +75,7 @@ public:
     };
     void lvUpdateSpinboxValues()
     {
-        for (const auto [obj, param] : spinboxToParam)
+        for (const auto& [obj, param] : spinboxToParam)
         {
             if (lv_obj_has_flag(obj, LV_OBJ_FLAG_SPINBOX_PERCENT))
                 lv_spinbox_set_value(obj, static_cast<int32_t>(*param * 100));
@@ -94,7 +94,7 @@ public:
     lv_obj_t* barMotor = objects.bar_motor;
     lv_obj_t* labelNumMotor = objects.label_bar_value_motor;
 
-    const std::map<lv_obj_t*, float*> spinboxToParam{
+    const std::vector<std::pair<lv_obj_t*, float*>> spinboxToParam{
         {objects.spinbox_home_max_arousal, &edgingController.settings.edgeArousal},
         {objects.spinbox_home_max_motor, &edgingController.settings.motorSpeedMax},
     };

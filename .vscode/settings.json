@@ -109,7 +109,8 @@
         "*.ipp": "cpp",
         "screens.h": "c",
         "ui.h": "c",
-        "images.h": "c"
+        "images.h": "c",
+        "netfwd": "cpp"
     },
     "idf.port": "/dev/ttyACM0",
     "idf.flashType": "UART"

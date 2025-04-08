@@ -10,8 +10,6 @@
 #include "ArousalMonitor.hpp"
 #include "MotorController.hpp"
 
-#define TAG "EdgingController"
-
 struct EdgingSettings
 {
     float edgeArousal = 300;

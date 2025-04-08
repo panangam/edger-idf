@@ -1,5 +1,7 @@
 #include "EdgingController.hpp"
 
+constexpr const char* TAG = "EdgingController";
+
 void EdgingController::setSpeed(float newSpeed)
 {
     speed = newSpeed;

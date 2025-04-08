@@ -30,7 +30,7 @@
 
 #include "ui/eez_ui/ui.h"
 
-#define TAG "main.cpp"
+constexpr const char* TAG = "main.cpp";
 
 #define PIN_ROTARY_CLK GPIO_NUM_20
 #define PIN_ROTARY_DT GPIO_NUM_19

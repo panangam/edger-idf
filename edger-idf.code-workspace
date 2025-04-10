@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"path": "edger-idf-main"
+		},
+		{
+			"path": "edger-idf-motor-control"
+		},
+		{
+			"path": "components"
+		}
+	]
+}

@@ -1,0 +1,7 @@
+{
+  "C_Cpp.intelliSenseEngine": "default",
+  "idf.espIdfPath": "/home/oras/esp/v5.3.2/esp-idf",
+  "idf.toolsPath": "/home/oras/.espressif/",
+  "idf.pythonInstallPath": "/usr/bin/python",
+  "cmake.sourceDirectory": "/home/oras/codes/_myprojects/esp/edger-idf/components/edger-idf-common"
+}

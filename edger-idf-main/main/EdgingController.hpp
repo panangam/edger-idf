@@ -6,7 +6,6 @@
 #include "freertos/task.h"
 #include "esp_log.h"
 
-#include "WithMutex.hpp"
 #include "ArousalMonitor.hpp"
 #include "MotorController.hpp"
 
@@ -33,7 +32,7 @@ inline TickType_t secToTick(float sec) { return pdMS_TO_TICKS(sec * 1000); }
 
 inline float tickToSec(TickType_t tick) { return static_cast<float>(pdTICKS_TO_MS(tick)) / 1000; }
 
-class EdgingController : public WithMutex
+class EdgingController
 {
 public:
     EdgingController(

@@ -10,7 +10,7 @@
 #include "view.hpp"
 #include "macroUtil.hpp"
 #include "Page.hpp"
-#include "../EdgingController.hpp"
+#include "EdgingController.hpp"
 
 class SettingsPage : public Page
 {

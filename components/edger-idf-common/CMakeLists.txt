@@ -1,0 +1,11 @@
+idf_component_register(
+    SRCS
+        "MotorController.cpp"
+        "device/ADS1115.cpp"
+        "device/Rotary.cpp"
+        "device/Button.cpp"
+    INCLUDE_DIRS
+        "."
+    REQUIRES
+        driver
+)

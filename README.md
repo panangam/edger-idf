@@ -1,3 +1,13 @@
-# Edger using ESP-IDF
+# Edger-IDF
 
-- Class methods that call lvgl code (and thus must be guarded with lvglMutex) are prefixed with "lv", e.g. "lvLoadPage".
+ESP32C6-based edging machine
+
+## Modules
+
+### `edger-idf-main`
+
+Main box. Has the UI, edging algo, etc. Fully functional with wired connections. 
+
+### `edger-idf-motor-control`
+
+Wireless motor controller. WIP. 

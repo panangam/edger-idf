@@ -12,8 +12,6 @@ void EdgingController::tick()
 {
     float curArousal = arousalMonitor.getArousal();
 
-    take();
-
     switch (state)
     {
     case EDGING_STATE_START:
@@ -50,9 +48,7 @@ void EdgingController::tick()
             setSpeed(0);
             state = EDGING_STATE_COOLDOWN;
             numDenied++;
-            give();  // unblock while pausing for break
             vTaskDelay(pdMS_TO_TICKS(settings.cooldownTimeMin * 1000));
-            take();
         }
         break;
     case EDGING_STATE_COOLDOWN:
@@ -65,6 +61,4 @@ void EdgingController::tick()
         }
         break;
     }
-
-    give();
 }

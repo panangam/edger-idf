@@ -7,11 +7,10 @@
 #include "freertos/semphr.h"
 #include "esp_timer.h"
 
-#include "WithMutex.hpp"
 #include "RingBuffer.hpp"
 #include "device/ADS1115.hpp"
 
-class ArousalMonitor : public WithMutex
+class ArousalMonitor
 {
 public:
     ArousalMonitor(

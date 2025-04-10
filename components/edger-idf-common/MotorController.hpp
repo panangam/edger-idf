@@ -9,13 +9,14 @@
 class MotorController
 {
 public:
-    MotorController(gpio_num_t pinPWM, uint32_t freq = 25000);
+    MotorController(gpio_num_t pinPWM, int timerIdx = 0, uint32_t freq = 25000);
     ~MotorController();
     void setSpeed(float speed);
 
-private:
     gpio_num_t pinPWM;
     uint32_t freq;
+    
+private: 
     mcpwm_timer_handle_t timer;
     mcpwm_oper_handle_t oper;
     mcpwm_cmpr_handle_t comparator;

@@ -10,7 +10,7 @@ dependencies:
       type: service
     version: 0.1.0
   espressif/button:
-    component_hash: ea6e01641b8dcf196ecc48be2961b1f20af397b61a752ab041a19282e41bafcb
+    component_hash: d8c89767960aa80f9cbb92a047282c24aecb96a4e963b06e8e2634284884ad73
     dependencies:
     - name: espressif/cmake_utilities
       registry_url: https://components.espressif.com
@@ -22,7 +22,7 @@ dependencies:
     source:
       registry_url: https://components.espressif.com/
       type: service
-    version: 4.1.1
+    version: 4.1.2
   espressif/cmake_utilities:
     component_hash: 351350613ceafba240b761b4ea991e0f231ac7a9f59a9ee901f751bddc0bb18f
     dependencies:
@@ -47,48 +47,15 @@ dependencies:
       registry_url: https://components.espressif.com/
       type: service
     version: 2.5.2
-  espressif/esp_lvgl_port:
-    component_hash: bb938deffba7d80b2ce582a796c053681b0439e0a7033666688e0f1f5b921125
-    dependencies:
-    - name: idf
-      require: private
-      version: '>=4.4'
-    - name: lvgl/lvgl
-      registry_url: https://components.espressif.com
-      require: public
-      version: '>=8,<10'
-    source:
-      registry_url: https://components.espressif.com/
-      type: service
-    version: 2.5.0
-  espressif/led_strip:
-    component_hash: b578eb926d9f6402fd45398b53c9bd5d1b7a15c1b2974d25aa3088e6c79b0b4c
-    dependencies:
-    - name: idf
-      require: private
-      version: '>=5.0'
-    source:
-      registry_url: https://components.espressif.com/
-      type: service
-    version: 3.0.1
   idf:
     source:
       type: idf
     version: 5.3.2
-  lvgl/lvgl:
-    component_hash: 096c69af22eaf8a2b721e3913da91918c5e6bf1a762a113ec01f401aa61337a0
-    dependencies: []
-    source:
-      registry_url: https://components.espressif.com
-      type: service
-    version: 9.2.2
 direct_dependencies:
 - espressif/bdc_motor
 - espressif/button
 - espressif/esp-now
-- espressif/esp_lvgl_port
-- espressif/led_strip
 - idf
-manifest_hash: f6200ddeb2bf737b0bb10c78484cc17b92156c50a31979d235221253ca490b6a
+manifest_hash: 18dea1e485ffeb299dccfce44e238e1e3eea05573abdd99a940f9f0d0aa3d346
 target: esp32c6
 version: 2.0.0

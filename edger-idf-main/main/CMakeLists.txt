@@ -2,9 +2,7 @@ idf_component_register(
     SRCS
         "main.cpp"
         "ArousalMonitor.cpp"
-        "device/ADS1115.cpp"
-        "device/Rotary.cpp"
-        "device/Button.cpp"
+        "EdgingController.cpp"
         "ui/tamzen_12.c"
         "ui/view.cpp"
         "ui/actions.cpp"
@@ -13,8 +11,6 @@ idf_component_register(
         "ui/eez_ui/styles.c"
         "ui/eez_ui/ui_font_tamzen_12.c"
         "ui/eez_ui/ui.c"
-        "EdgingController.cpp"
-        "MotorController.cpp"
     INCLUDE_DIRS
         "."
 )

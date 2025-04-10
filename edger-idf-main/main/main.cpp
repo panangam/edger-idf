@@ -12,14 +12,15 @@
 #include "esp_lvgl_port.h"
 #include "esp_timer.h"
 
-#include "macroUtil.hpp"
 #include "device/Rotary.hpp"
 #include "device/Button.hpp"
-#include "device/RotaryEncoderWithButton.hpp"
 #include "device/ADS1115.hpp"
+
+#include "macroUtil.hpp"
 #include "ArousalMonitor.hpp"
 #include "MotorController.hpp"
 #include "EdgingController.hpp"
+#include "RotaryEncoderWithButton.hpp"
 
 #include "ui/view.hpp"
 #include "ui/ArousalPage.hpp"

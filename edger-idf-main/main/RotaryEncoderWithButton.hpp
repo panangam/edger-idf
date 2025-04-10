@@ -8,9 +8,9 @@
 #include "freertos/FreeRTOS.h"
 #include "freertos/queue.h"
 
-#include "../macroUtil.hpp"
+#include "macroUtil.hpp"
 
-#include "Rotary.hpp"
+#include "device/Rotary.hpp"
 
 enum RotaryEncoderWithButtonEvent
 {
@@ -37,8 +37,6 @@ public:
     std::atomic_int16_t tempEncDiff = 0;
     lv_indev_state_t tempButtonState = LV_INDEV_STATE_RELEASED;
 };
-
-void handleEventQueue(RotaryEncoderWithButtonIndev& encoder);
 
 RotaryEncoderWithButtonIndev::RotaryEncoderWithButtonIndev(
     gpio_num_t pinClk,

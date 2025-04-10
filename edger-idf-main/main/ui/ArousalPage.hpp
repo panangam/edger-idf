@@ -4,6 +4,7 @@
 
 #include "eez_ui/screens.h"
 
+#include "macroUtil.hpp"
 #include "GraphPage.hpp"
 
 class ArousalPage : public GraphPage
